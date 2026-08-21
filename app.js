@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentWaitlistCount = 142; // Base prototype count
 
   if (waitlistForm) {
-    waitlistForm.addEventListener('submit', (e) => {
+    waitlistForm.addEventListener('submit', async (e) => {
       e.preventDefault();
 
       const fullName = document.getElementById('form-name').value.trim();
@@ -147,6 +147,43 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!fullName || !brandName || !whatsapp) {
         alert('Please fill out all required fields.');
         return;
+      }
+
+      const submitBtn = waitlistForm.querySelector('button[type="submit"]');
+      const originalBtnText = submitBtn ? submitBtn.innerHTML : '';
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `<i data-lucide="loader-2" class="w-5 h-5 animate-spin inline mr-2"></i> Submitting Enquiry...`;
+        if (window.lucide) lucide.createIcons();
+      }
+
+      // Dispatch payload to nhlcvsbus@gmail.com mailbox
+      try {
+        await fetch('https://formsubmit.co/ajax/nhlcvsbus@gmail.com', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            name: fullName,
+            brand: brandName,
+            outlets: outlets,
+            city: city,
+            whatsapp: whatsapp,
+            _subject: `New Fixive Early Access Enquiry from ${brandName} (${city})`,
+            _template: 'table',
+            _captcha: 'false'
+          })
+        });
+      } catch (err) {
+        console.warn('Enquiry mail API notice:', err);
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalBtnText;
+          if (window.lucide) lucide.createIcons();
+        }
       }
 
       // Update Modal details dynamically

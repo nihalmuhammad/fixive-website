@@ -22,7 +22,7 @@ To introduce **Fixive** as a proposed tech-driven solution for commercial kitche
 
 ### Section 1: Top Navigation
 * **Brand Logo:** `Fixive` (with modern mark)
-* **Status Badge:** `⚪ Concept Phase • Waitlist Now Open`
+* **Status Badge:** `⚪ Prototype Phase • Waitlist Now Open`
 * **Nav Links:** The Vision, How It Works, Waitlist Perks, Contact
 * **CTA Button:** `Join Waitlist`
 

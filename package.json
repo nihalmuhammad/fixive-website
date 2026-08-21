@@ -1,0 +1,13 @@
+{
+  "name": "fixive-website",
+  "version": "1.0.0",
+  "description": "Fixive Commercial Kitchen Maintenance Platform Landing Page",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/enquiry-email.test.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
