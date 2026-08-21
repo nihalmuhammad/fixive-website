@@ -831,7 +831,7 @@
           </div>
 
           <!-- Form Element -->
-          <form id="waitlist-form" class="space-y-6">
+          <form id="waitlist-form" action="https://formsubmit.co/ajax/nhlcvsbus@gmail.com" method="POST" class="space-y-6">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
 
               <!-- Full Name -->
@@ -840,7 +840,7 @@
                   class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">Name *</label>
                 <div class="relative">
                   <i data-lucide="user" class="w-5 h-5 text-slate-500 absolute left-3.5 top-3.5"></i>
-                  <input type="text" id="form-name" required placeholder="e.g. Tariq Al-Mansoor"
+                  <input type="text" id="form-name" name="name" required placeholder="e.g. Tariq Al-Mansoor"
                     class="custom-input w-full pl-11 pr-4 py-3 rounded-xl text-sm">
                 </div>
               </div>
@@ -851,7 +851,7 @@
                   class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">Brand Name *</label>
                 <div class="relative">
                   <i data-lucide="utensils" class="w-5 h-5 text-slate-500 absolute left-3.5 top-3.5"></i>
-                  <input type="text" id="form-brand" required placeholder="e.g. Golden Grill Group"
+                  <input type="text" id="form-brand" name="brand" required placeholder="e.g. Golden Grill Group"
                     class="custom-input w-full pl-11 pr-4 py-3 rounded-xl text-sm">
                 </div>
               </div>
@@ -863,12 +863,12 @@
                   *</label>
                 <div class="relative">
                   <i data-lucide="store" class="w-5 h-5 text-slate-500 absolute left-3.5 top-3.5"></i>
-                  <select id="form-outlets" required
+                  <select id="form-outlets" name="outlets" required
                     class="custom-input w-full pl-11 pr-4 py-3 rounded-xl text-sm appearance-none">
                     <option value="1-2 Outlets">1 - 2 Outlets</option>
                     <option value="3-5 Outlets">3 - 5 Outlets</option>
                     <option value="6-15 Outlets">6 - 15 Outlets</option>
-                    <option value="16+ Outlets">16+ Outlets (Fleet / Cloud Kitchen)</option>
+                    <option value="16+ Outlets (Fleet / Cloud Kitchen)">16+ Outlets (Fleet / Cloud Kitchen)</option>
                   </select>
                 </div>
               </div>
@@ -879,7 +879,7 @@
                   class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">City *</label>
                 <div class="relative">
                   <i data-lucide="map-pin" class="w-5 h-5 text-slate-500 absolute left-3.5 top-3.5"></i>
-                  <select id="form-city" required
+                  <select id="form-city" name="city" required
                     class="custom-input w-full pl-11 pr-4 py-3 rounded-xl text-sm appearance-none">
                     <option value="Riyadh">Riyadh</option>
                     <option value="Jeddah">Jeddah</option>
@@ -898,7 +898,7 @@
                 *</label>
               <div class="relative">
                 <i data-lucide="phone" class="w-5 h-5 text-slate-500 absolute left-3.5 top-3.5"></i>
-                <input type="tel" id="form-whatsapp" required placeholder="+966 5X XXX XXXX"
+                <input type="tel" id="form-whatsapp" name="whatsapp" required placeholder="+966 5X XXX XXXX"
                   class="custom-input w-full pl-11 pr-4 py-3 rounded-xl text-sm">
               </div>
             </div>

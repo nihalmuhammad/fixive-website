@@ -157,24 +157,20 @@ document.addEventListener('DOMContentLoaded', () => {
         if (window.lucide) lucide.createIcons();
       }
 
-      // Dispatch payload to nhlcvsbus@gmail.com mailbox
+      // Build form submission payload
+      const formData = new FormData(waitlistForm);
+      formData.append('_subject', `New Fixive Early Access Enquiry from ${brandName} (${city})`);
+      formData.append('_template', 'table');
+      formData.append('_captcha', 'false');
+
+      // Dispatch payload to nhlcvsbus@gmail.com
       try {
         await fetch('https://formsubmit.co/ajax/nhlcvsbus@gmail.com', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
             'Accept': 'application/json'
           },
-          body: JSON.stringify({
-            name: fullName,
-            brand: brandName,
-            outlets: outlets,
-            city: city,
-            whatsapp: whatsapp,
-            _subject: `New Fixive Early Access Enquiry from ${brandName} (${city})`,
-            _template: 'table',
-            _captcha: 'false'
-          })
+          body: formData
         });
       } catch (err) {
         console.warn('Enquiry mail API notice:', err);
