@@ -52,38 +52,37 @@ test('3. Form Submission Payload Structuring & Serialization', () => {
   assert.match(payload._subject, /Fixive Early Access Enquiry/);
 });
 
-test('4. Live Enquiry Mail Endpoint Transmission to nhlcvsbus@gmail.com', async () => {
-  const testPayload = {
-    name: 'Unit Test Runner',
-    brand_name: 'Fixive Test Brand',
-    outlet_count: '1-2 Outlets',
-    city: 'Riyadh',
-    whatsapp: '+966 50 000 0000',
-    message: `Automated test verifying enquiry mail dispatch to ${TARGET_EMAIL}`,
-    _subject: `Unit Test - Fixive Enquiry Mail Verification (${new Date().toISOString()})`,
-    _template: 'table',
-    _captcha: 'false'
-  };
+test('4. Live Enquiry Mail Endpoint Transmission for fixivetech.com to nhlcvsbus@gmail.com', async () => {
+  const formData = new FormData();
+  formData.append('name', 'Unit Test Runner');
+  formData.append('brand', 'Fixive Tech Test');
+  formData.append('outlets', '1-2 Outlets');
+  formData.append('city', 'Riyadh');
+  formData.append('whatsapp', '+966 50 000 0000');
+  formData.append('_subject', `Unit Test - Fixive Enquiry Mail Verification for fixivetech.com (${new Date().toISOString()})`);
+  formData.append('_template', 'table');
+  formData.append('_captcha', 'false');
 
   const response = await fetch(FORMSUBMIT_ENDPOINT, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'Referer': 'https://fixive.sa/',
-      'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)'
+      'Referer': 'https://fixivetech.com/'
     },
-    body: JSON.stringify(testPayload)
+    body: formData
   });
 
   assert.equal(response.status, 200, 'HTTP Response status should be 200 OK');
   const responseData = await response.json();
   
-  console.log('    Form Service Response:', responseData);
+  console.log('    Form Service Response for fixivetech.com:', responseData);
   
-  // Response indicates endpoint handled request for nhlcvsbus@gmail.com
   assert.ok(
     responseData.success === 'true' || responseData.message?.includes('Activation') || responseData.message?.includes('actived'),
     'Mail service must confirm message processing for nhlcvsbus@gmail.com'
   );
+
+  if (responseData.success === 'false' && responseData.message?.includes('Activation')) {
+    console.warn('    ⚠️ ACTIVATION REQUIRED FOR FIXIVETECH.COM: Check nhlcvsbus@gmail.com inbox for FormSubmit Activation Email for origin https://fixivetech.com!');
+  }
 });

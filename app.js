@@ -165,13 +165,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Dispatch payload to nhlcvsbus@gmail.com
       try {
-        await fetch('https://formsubmit.co/ajax/nhlcvsbus@gmail.com', {
+        const response = await fetch('https://formsubmit.co/ajax/nhlcvsbus@gmail.com', {
           method: 'POST',
           headers: {
             'Accept': 'application/json'
           },
           body: formData
         });
+
+        const data = await response.json();
+        if (data && data.success === 'false' && data.message && data.message.includes('Activation')) {
+          console.warn('FormSubmit activation required for domain:', window.location.origin);
+          // If activation is pending, allow native form submission to open FormSubmit activation notice page
+          if (waitlistForm.action) {
+            waitlistForm.submit();
+            return;
+          }
+        }
       } catch (err) {
         console.warn('Enquiry mail API notice:', err);
       } finally {
