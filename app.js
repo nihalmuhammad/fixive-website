@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
           etaDisplay.textContent = '⚡ 60-Min Guaranteed Response Target';
           etaDisplay.className = 'text-xs font-semibold text-red-400 bg-red-500/10 px-3 py-1.5 rounded-md border border-red-500/30';
         } else if (level === 'high') {
-          etaDisplay.textContent = '⏱️ 3-Hour Priority Technician Slot';
+          etaDisplay.textContent = '⏱️ Example response target (pilot hypothesis)';
           etaDisplay.className = 'text-xs font-semibold text-orange-400 bg-orange-500/10 px-3 py-1.5 rounded-md border border-orange-500/30';
         } else {
           etaDisplay.textContent = '📅 Next Morning Scheduled Visit';
@@ -126,13 +126,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 6. Lead Capture Waitlist Form Handling
+  // 6. Pilot application form handling
   const waitlistForm = document.getElementById('waitlist-form');
   const confirmationModal = document.getElementById('confirmation-modal');
   const closeModalBtn = document.getElementById('close-modal-btn');
-  const waitlistCountElement = document.getElementById('waitlist-counter');
-
-  let currentWaitlistCount = 142; // Base prototype count
 
   if (waitlistForm) {
     waitlistForm.addEventListener('submit', async (e) => {
@@ -159,11 +156,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Build form submission payload
       const formData = new FormData(waitlistForm);
-      formData.append('_subject', `New Fixive Early Access Enquiry from ${brandName} (${city})`);
+      formData.append('_subject', `New Fixive Pilot Application from ${brandName} (${city})`);
       formData.append('_template', 'table');
       formData.append('_captcha', 'false');
 
       // Dispatch payload to nhlcvsbus@gmail.com
+      let submissionSucceeded = false;
       try {
         const response = await fetch('https://formsubmit.co/ajax/nhlcvsbus@gmail.com', {
           method: 'POST',
@@ -182,8 +180,10 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
           }
         }
+        submissionSucceeded = response.ok && data && data.success !== 'false';
       } catch (err) {
         console.warn('Enquiry mail API notice:', err);
+        alert('We could not send your application. Please try again or contact Fixive by email.');
       } finally {
         if (submitBtn) {
           submitBtn.disabled = false;
@@ -192,18 +192,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
 
-      // Update Modal details dynamically
+      if (!submissionSucceeded) return;
+
+      // Update modal details dynamically
       document.getElementById('modal-user-name').textContent = fullName;
       document.getElementById('modal-brand-name').textContent = brandName;
       document.getElementById('modal-city').textContent = city;
-
-      // Calculate queue position
-      currentWaitlistCount += 1;
-      document.getElementById('modal-queue-number').textContent = `#${currentWaitlistCount}`;
-
-      if (waitlistCountElement) {
-        waitlistCountElement.textContent = currentWaitlistCount;
-      }
 
       // Show confirmation modal
       if (confirmationModal) {
