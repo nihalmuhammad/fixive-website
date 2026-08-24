@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const level = btn.getAttribute('data-severity');
       if (etaDisplay) {
         if (level === 'critical') {
-          etaDisplay.textContent = '⚡ 60-Min Guaranteed Response Target';
+          etaDisplay.textContent = '⚡ Critical-priority workflow (pilot hypothesis)';
           etaDisplay.className = 'text-xs font-semibold text-red-400 bg-red-500/10 px-3 py-1.5 rounded-md border border-red-500/30';
         } else if (level === 'high') {
           etaDisplay.textContent = '⏱️ Example response target (pilot hypothesis)';
