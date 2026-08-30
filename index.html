@@ -1,1057 +1,213 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
-
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fixive | Commercial Kitchen Maintenance Pilot for Riyadh F&amp;B Groups</title>
-  <meta name="description"
-    content="Fixive is developing an accountable commercial kitchen maintenance platform for multi-outlet F&amp;B operators, beginning with pilot discovery in Riyadh.">
-
-  <!-- Google Fonts -->
+  <title>Fixive | Preventive Maintenance with Condition Monitoring</title>
+  <meta name="description" content="Fixive is a preventive maintenance company for commercial kitchen equipment, using condition monitoring to find equipment strain before failures happen.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
-    rel="stylesheet">
-
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            navy: {
-              800: '#1e293b',
-              900: '#0f172a',
-              950: '#080d1a',
-            },
-            brand: {
-              50: '#fff7ed',
-              100: '#ffedd5',
-              400: '#fb923c',
-              500: '#f97316',
-              600: '#ea580c',
-              700: '#c2410c',
-            }
-          },
-          fontFamily: {
-            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-            heading: ['Outfit', 'sans-serif'],
-          }
-        }
-      }
-    }
-  </script>
-
-  <!-- Lucide Icons CDN -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest"></script>
-
-  <!-- Custom CSS -->
   <link rel="stylesheet" href="style.css">
 </head>
-
-<body class="bg-navy-900 text-slate-100 min-h-screen selection:bg-brand-500 selection:text-white">
-
-  <!-- TOP NAVIGATION BAR -->
-  <header class="fixed top-0 left-0 right-0 z-50 glass-nav">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-20">
-
-        <!-- Logo -->
-        <a href="#" class="flex items-center space-x-3 group">
-          <div
-            class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-500 to-brand-600 flex items-center justify-center shadow-lg shadow-brand-500/20 group-hover:scale-105 transition-transform">
-            <i data-lucide="wrench" class="w-5 h-5 text-white"></i>
-          </div>
-          <div class="flex flex-col">
-            <span class="text-2xl font-bold font-heading tracking-tight text-white flex items-center">
-              Fixive<span class="text-brand-500">.</span>
-            </span>
-            <span class="text-[10px] uppercase tracking-widest text-slate-400 font-semibold -mt-1">KSA Platform
-              Concept</span>
-          </div>
-        </a>
-
-        <!-- Status Badge -->
-        <div
-          class="hidden md:flex items-center px-3.5 py-1.5 rounded-full bg-slate-800/80 border border-slate-700/60 text-xs text-slate-300 shadow-inner">
-          <span class="w-2 h-2 rounded-full bg-sky-400 animate-pulse mr-2.5"></span>
-          <span class="font-medium text-slate-200">Prototype Stage</span>
-          <span class="mx-2 text-slate-600">•</span>
-          <span class="text-brand-400 font-semibold">Pilot Applications Open</span>
-        </div>
-
-        <!-- Desktop Nav Links -->
-        <nav class="hidden lg:flex items-center space-x-8 text-sm font-medium text-slate-300">
-          <a href="#vision" class="hover:text-brand-400 transition-colors">The Vision</a>
-          <a href="#solution" class="hover:text-brand-400 transition-colors">Proposed Solution</a>
-          <a href="#preview" class="hover:text-brand-400 transition-colors">Concept Preview</a>
-          <a href="#benefits" class="hover:text-brand-400 transition-colors">Pilot Programme</a>
-        </nav>
-
-        <!-- CTA Button -->
-        <div class="hidden sm:flex items-center space-x-4">
-          <a href="#waitlist-form-section"
-            class="inline-flex items-center justify-center px-5 py-2.5 rounded-xl font-semibold text-sm text-white bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-600 hover:to-brand-700 shadow-lg shadow-brand-500/25 transition-all hover:scale-[1.02] active:scale-[0.98]">
-            <i data-lucide="user-plus" class="w-4 h-4 mr-2"></i>
-            Apply for Pilot
-          </a>
-        </div>
-
-        <!-- Mobile Hamburger Button -->
-        <div class="flex sm:hidden">
-          <button id="mobile-menu-btn" type="button" class="text-slate-300 hover:text-white p-2"
-            aria-label="Toggle Navigation">
-            <i data-lucide="menu" class="w-6 h-6"></i>
-          </button>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- Mobile Drawer Nav -->
-    <div id="mobile-menu" class="hidden sm:hidden bg-navy-950/95 border-b border-slate-800 px-4 pt-3 pb-6 space-y-3">
-      <div
-        class="flex items-center px-3 py-1.5 rounded-full bg-slate-800/80 border border-slate-700/60 text-xs text-slate-300 mb-4">
-        <span class="w-2 h-2 rounded-full bg-sky-400 animate-pulse mr-2"></span>
-        <span>Prototype Stage • Pilot Discovery Open</span>
-      </div>
-      <a href="#vision" class="block px-3 py-2 rounded-md text-base font-medium text-slate-200 hover:bg-slate-800">The
-        Vision</a>
-      <a href="#solution"
-        class="block px-3 py-2 rounded-md text-base font-medium text-slate-200 hover:bg-slate-800">Proposed Solution</a>
-      <a href="#preview"
-        class="block px-3 py-2 rounded-md text-base font-medium text-slate-200 hover:bg-slate-800">Concept Preview</a>
-      <a href="#benefits"
-        class="block px-3 py-2 rounded-md text-base font-medium text-slate-200 hover:bg-slate-800">Pilot Programme</a>
-      <a href="#waitlist-form-section"
-        class="block w-full text-center mt-2 px-5 py-3 rounded-xl font-semibold text-sm text-white bg-brand-500 hover:bg-brand-600">
-        Apply for Pilot
-      </a>
-    </div>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="Fixive home">
+      <span class="brand-mark"><i data-lucide="activity"></i></span>
+      <span><strong>Fixive</strong><small>Preventive maintenance</small></span>
+    </a>
+    <nav class="desktop-nav" aria-label="Primary navigation">
+      <a href="#problem">Problem</a>
+      <a href="#workflow">How it works</a>
+      <a href="#preview">Prototype</a>
+      <a href="#pilot">Pilot</a>
+    </nav>
+    <a class="header-cta" href="#waitlist-form-section"><i data-lucide="arrow-right"></i> Apply</a>
+    <button id="mobile-menu-btn" class="menu-button" type="button" aria-label="Toggle navigation"><i data-lucide="menu"></i></button>
   </header>
 
-  <!-- MAIN CONTAINER -->
-  <main class="pt-20">
-
-    <!-- HERO SECTION -->
-    <section id="vision" class="relative pt-16 pb-24 lg:pt-24 lg:pb-32 bg-hero-grid overflow-hidden">
-      <!-- Glow ambient lights -->
-      <div
-        class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand-500/10 rounded-full blur-3xl pointer-events-none">
-      </div>
-      <div
-        class="absolute top-1/3 right-10 w-[350px] h-[350px] bg-sky-500/10 rounded-full blur-3xl pointer-events-none">
-      </div>
-
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div class="text-center max-w-3xl mx-auto">
-
-          <!-- Compliance Status Callout Pill -->
-          <div
-            class="inline-flex items-center px-4 py-2 rounded-full bg-brand-500/10 border border-brand-500/30 text-brand-400 text-xs sm:text-sm font-semibold mb-6 shadow-sm">
-            <span class="mr-2">ℹ️</span>
-            <span>Concept stage: pilot applications are for research, not active maintenance service.</span>
-          </div>
-
-          <!-- Hero Headline -->
-          <h1
-            class="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-heading text-white tracking-tight leading-tight">
-            One accountable maintenance layer for every kitchen in your <span class="text-gradient-orange">restaurant group.</span>
-          </h1>
-
-          <!-- Hero Subheadline -->
-          <p class="mt-6 text-lg sm:text-xl text-slate-300 leading-relaxed font-normal">
-            <strong class="text-white font-semibold">Fixive</strong> is being designed for Saudi F&amp;B operators managing
-            5–50 outlets: one place to track equipment, plan preventive work, request repairs and measure service
-            performance. We are now inviting Riyadh operators to help validate the model.
-          </p>
-
-          <!-- Hero CTAs -->
-          <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a href="#waitlist-form-section"
-              class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 rounded-xl font-bold text-base text-white bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-600 hover:to-brand-700 shadow-xl shadow-brand-500/30 transition-all hover:scale-[1.03] active:scale-[0.98]">
-              <i data-lucide="sparkles" class="w-5 h-5 mr-2"></i>
-              Apply for a Pilot
-            </a>
-            <a href="#preview"
-              class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 rounded-xl font-semibold text-base text-slate-200 bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700/80 transition-all hover:text-white">
-              <i data-lucide="layout-dashboard" class="w-5 h-5 mr-2 text-slate-400"></i>
-              Explore Platform Concept
-            </a>
-          </div>
-
-          <!-- Trust / Target Indicators -->
-          <div class="mt-14 grid grid-cols-2 md:grid-cols-3 gap-4 max-w-2xl mx-auto pt-8 border-t border-slate-800/80">
-            <div class="glass-card p-4 rounded-xl text-center">
-              <div class="text-2xl font-bold text-white font-heading">5–50</div>
-              <div class="text-xs text-slate-400 mt-1 font-medium">Target Outlets per Group</div>
-            </div>
-            <div class="glass-card p-4 rounded-xl text-center">
-              <div class="text-2xl font-bold text-brand-400 font-heading">Pilot Stage</div>
-              <div class="text-xs text-slate-400 mt-1 font-medium">Performance Yet to Be Validated</div>
-            </div>
-            <div class="glass-card p-4 rounded-xl text-center col-span-2 md:col-span-1">
-              <div class="text-2xl font-bold text-sky-400 font-heading">Riyadh First</div>
-              <div class="text-xs text-slate-400 mt-1 font-medium">Focused Initial Service Area</div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- CHALLENGE VS PROPOSED SOLUTION SECTION -->
-    <section id="solution" class="py-20 bg-slate-950/60 relative border-y border-slate-800/60">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-        <!-- Section Header -->
-        <div class="text-center max-w-3xl mx-auto mb-16">
-          <h2 class="text-xs font-bold uppercase tracking-widest text-brand-500 mb-2">Operational Reality & Platform
-            Contrast</h2>
-          <p class="text-3xl sm:text-4xl font-bold font-heading text-white">Current Kitchen Maintenance Pains vs. The
-            Fixive Platform Vision</p>
-          <p class="mt-4 text-slate-400 text-base">Comparing traditional reactive maintenance hassles in KSA with the
-            tech-enabled platform Fixive is building.</p>
-        </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-
-          <!-- Column 1: Current Kitchen Maintenance Pains -->
-          <div class="glass-card p-8 rounded-2xl border-red-500/20 bg-red-950/10">
-            <div class="flex items-center space-x-3 mb-6">
-              <div
-                class="w-10 h-10 rounded-lg bg-red-500/20 border border-red-500/30 flex items-center justify-center text-red-400">
-                <i data-lucide="alert-triangle" class="w-5 h-5"></i>
-              </div>
-              <div>
-                <h3 class="text-xl font-bold text-white font-heading">Current Kitchen Maintenance Pains</h3>
-                <p class="text-xs text-red-400/80">Pain points experienced by KSA F&B operators today</p>
-              </div>
-            </div>
-
-            <ul class="space-y-4">
-              <li class="flex items-start">
-                <div class="p-1 rounded bg-red-500/10 text-red-400 mr-3 mt-1 flex-shrink-0">
-                  <i data-lucide="x-circle" class="w-4 h-4"></i>
-                </div>
-                <div>
-                  <h4 class="text-sm font-semibold text-slate-200">Frequent, Unexpected Equipment Downtime</h4>
-                  <p class="text-xs text-slate-400 mt-0.5">Combi ovens, deep fryers, or walk-in chillers breaking down
-                    during peak dinner rushes, causing lost orders and burnt customer reviews.</p>
-                </div>
-              </li>
-              <li class="flex items-start">
-                <div class="p-1 rounded bg-red-500/10 text-red-400 mr-3 mt-1 flex-shrink-0">
-                  <i data-lucide="x-circle" class="w-4 h-4"></i>
-                </div>
-                <div>
-                  <h4 class="text-sm font-semibold text-slate-200">Untracked Repair Histories & Disorganized Records
-                  </h4>
-                  <p class="text-xs text-slate-400 mt-0.5">Relying on paper receipts or WhatsApp messages with
-                    individual freelancers, making warranty claims and asset tracking across units impossible.</p>
-                </div>
-              </li>
-              <li class="flex items-start">
-                <div class="p-1 rounded bg-red-500/10 text-red-400 mr-3 mt-1 flex-shrink-0">
-                  <i data-lucide="x-circle" class="w-4 h-4"></i>
-                </div>
-                <div>
-                  <h4 class="text-sm font-semibold text-slate-200">Zero Multi-Branch Centralized Visibility</h4>
-                  <p class="text-xs text-slate-400 mt-0.5">Operations managers running 5 to 20 outlets have no
-                    centralized dashboard to monitor maintenance costs, recurring breakdowns, or technician arrival
-                    times.</p>
-                </div>
-              </li>
-            </ul>
-          </div>
-
-          <!-- Column 2: The Fixive Platform Vision -->
-          <div class="glass-card p-8 rounded-2xl border-brand-500/30 bg-brand-950/10 relative overflow-hidden">
-            <div
-              class="absolute -right-10 -bottom-10 w-40 h-40 bg-brand-500/10 rounded-full blur-2xl pointer-events-none">
-            </div>
-
-            <div class="flex items-center space-x-3 mb-6">
-              <div
-                class="w-10 h-10 rounded-lg bg-brand-500/20 border border-brand-500/40 flex items-center justify-center text-brand-400">
-                <i data-lucide="shield-check" class="w-5 h-5"></i>
-              </div>
-              <div>
-                <h3 class="text-xl font-bold text-white font-heading">The Fixive Platform Vision</h3>
-                <p class="text-xs text-brand-400">Tech-enabled platform capabilities under development</p>
-              </div>
-            </div>
-
-            <ul class="space-y-4">
-              <li class="flex items-start">
-                <div class="p-1 rounded bg-brand-500/20 text-brand-400 mr-3 mt-1 flex-shrink-0">
-                  <i data-lucide="check-circle-2" class="w-4 h-4"></i>
-                </div>
-                <div>
-                  <h4 class="text-sm font-semibold text-slate-100">Scheduled Preventive Maintenance Frameworks</h4>
-                  <p class="text-xs text-slate-300 mt-0.5">Automated maintenance intervals designed to inspect heating
-                    elements, descaling boilers, and gaskets before emergency breakdowns happen.</p>
-                </div>
-              </li>
-              <li class="flex items-start">
-                <div class="p-1 rounded bg-brand-500/20 text-brand-400 mr-3 mt-1 flex-shrink-0">
-                  <i data-lucide="check-circle-2" class="w-4 h-4"></i>
-                </div>
-                <div>
-                  <h4 class="text-sm font-semibold text-slate-100">Digital Asset QR Tagging & Equipment History</h4>
-                  <p class="text-xs text-slate-300 mt-0.5">Every piece of kitchen equipment gets a digital passport.
-                    Staff scan the QR tag to log issues, view service logs, or request spare parts instantly.</p>
-                </div>
-              </li>
-              <li class="flex items-start">
-                <div class="p-1 rounded bg-brand-500/20 text-brand-400 mr-3 mt-1 flex-shrink-0">
-                  <i data-lucide="check-circle-2" class="w-4 h-4"></i>
-                </div>
-                <div>
-                  <h4 class="text-sm font-semibold text-slate-100">Accountable Service Coordination</h4>
-                  <p class="text-xs text-slate-300 mt-0.5">The proposed model combines technician vetting, documented
-                    job scopes, service reports and customer feedback. Coverage and quality controls will be tested
-                    before any commercial service promise is made.</p>
-                </div>
-              </li>
-            </ul>
-          </div>
-
-        </div>
-
-        <div class="mt-8 glass-card p-6 rounded-2xl border-sky-500/20">
-          <div class="grid grid-cols-1 md:grid-cols-4 gap-5 text-sm">
-            <div><span class="text-sky-400 font-bold block mb-1">1. Baseline</span><span class="text-slate-400">Map selected assets, history and current maintenance process.</span></div>
-            <div><span class="text-sky-400 font-bold block mb-1">2. Plan</span><span class="text-slate-400">Agree scope, responsibilities, response targets and escalation rules.</span></div>
-            <div><span class="text-sky-400 font-bold block mb-1">3. Coordinate</span><span class="text-slate-400">Record requests, assignments, work completed, parts and follow-ups.</span></div>
-            <div><span class="text-sky-400 font-bold block mb-1">4. Measure</span><span class="text-slate-400">Review response time, repeat failures, first-time fixes, cost and downtime.</span></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- INTERACTIVE CONCEPT PREVIEW SECTION -->
-    <section id="preview" class="py-24 relative">
-      <!-- Ambient Lights -->
-      <div
-        class="absolute top-1/2 left-0 -translate-y-1/2 w-96 h-96 bg-brand-500/10 rounded-full blur-3xl pointer-events-none">
-      </div>
-      <div class="absolute bottom-10 right-0 w-96 h-96 bg-sky-500/10 rounded-full blur-3xl pointer-events-none"></div>
-
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-
-        <!-- Section Header -->
-        <div class="text-center max-w-3xl mx-auto mb-12">
-          <div
-            class="inline-flex items-center px-3.5 py-1.5 rounded-full bg-brand-500/10 border border-brand-500/30 text-brand-400 text-xs font-semibold mb-4 shadow-sm">
-            <i data-lucide="layout-dashboard" class="w-3.5 h-3.5 mr-1.5 text-brand-500"></i>
-            Interactive Prototype Showcase
-          </div>
-          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-heading text-white tracking-tight">Platform
-            Concept Preview</h2>
-          <p class="mt-4 text-slate-300 text-base sm:text-lg">Experience our proposed tech-enabled maintenance workflow.
-            Click through the interactive dashboard mockups below.</p>
-          <p class="mt-3 text-xs text-amber-300 bg-amber-500/10 border border-amber-500/20 rounded-xl px-4 py-3">
-            All equipment records, dates, health scores, tickets, technicians and schedules shown below are simulated
-            prototype data. They are not customer records or evidence of active service.
-          </p>
-        </div>
-
-        <!-- Dashboard Window Shell -->
-        <div class="glass-card rounded-2xl border-slate-700/80 shadow-2xl overflow-hidden max-w-5xl mx-auto">
-
-          <!-- Window Top Toolbar / Nav Tabs -->
-          <div
-            class="bg-slate-900 px-4 py-3.5 border-b border-slate-800 flex flex-wrap items-center justify-between gap-4">
-            <!-- Window Control Dots -->
-            <div class="flex items-center space-x-2">
-              <span class="w-3 h-3 rounded-full bg-red-500/80 inline-block"></span>
-              <span class="w-3 h-3 rounded-full bg-yellow-500/80 inline-block"></span>
-              <span class="w-3 h-3 rounded-full bg-emerald-500/80 inline-block"></span>
-              <span
-                class="text-xs text-slate-400 ml-2 font-mono hidden md:inline-block">fixive.sa/dashboard-concept</span>
-            </div>
-
-            <!-- Tab Buttons -->
-            <div class="flex items-center space-x-1 sm:space-x-2 overflow-x-auto py-1">
-              <button data-tab="tab-qr"
-                class="tab-btn active px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-orange-500 bg-orange-500/15 text-orange-400 transition-all flex items-center whitespace-nowrap shadow-sm">
-                <i data-lucide="qr-code" class="w-4 h-4 mr-2"></i>
-                1. QR Asset Tagging Concept
-              </button>
-              <button data-tab="tab-ticket"
-                class="tab-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 transition-all flex items-center whitespace-nowrap">
-                <i data-lucide="file-text" class="w-4 h-4 mr-2"></i>
-                2. Digital Request Logging
-              </button>
-              <button data-tab="tab-pm"
-                class="tab-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 transition-all flex items-center whitespace-nowrap">
-                <i data-lucide="calendar-range" class="w-4 h-4 mr-2"></i>
-                3. Preventive Inspection Schedules
-              </button>
-            </div>
-          </div>
-
-          <!-- Window Inner Workspace Body -->
-          <div class="p-6 sm:p-8 bg-navy-950/90 min-h-[460px]">
-
-            <!-- MOCKUP TAB 1: QR ASSET TAGGING CONCEPT -->
-            <div id="tab-qr" class="tab-content active">
-              <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-stretch">
-
-                <!-- Scanner Simulator Control -->
-                <div
-                  class="md:col-span-5 bg-slate-900/90 p-6 rounded-2xl border border-slate-800 flex flex-col justify-between relative overflow-hidden">
-                  <div>
-                    <div class="flex items-center justify-between mb-3">
-                      <span class="text-[11px] font-mono text-brand-400 uppercase tracking-wider font-semibold">QR
-                        Scanner Unit #01</span>
-                      <span
-                        class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">Camera
-                        Active</span>
-                    </div>
-                    <p class="text-xs text-slate-300 mb-4">Simulate scanning an equipment QR code in the kitchen line.
-                    </p>
-                  </div>
-
-                  <!-- Scanner Box -->
-                  <div
-                    class="relative w-48 h-48 mx-auto border-2 border-dashed border-brand-500/60 rounded-2xl p-4 bg-slate-950 flex flex-col items-center justify-center my-2 group cursor-pointer hover:border-brand-400 transition-all"
-                    id="scan-simulate-btn">
-                    <div class="scanner-line absolute left-0 right-0 h-0.5 bg-brand-500 shadow-[0_0_12px_#f97316]">
-                    </div>
-                    <i data-lucide="qr-code"
-                      class="w-24 h-24 text-slate-200 group-hover:scale-105 transition-transform"></i>
-                    <span
-                      class="text-[11px] font-bold text-brand-400 mt-3 bg-brand-500/10 px-2.5 py-1 rounded-full border border-brand-500/30">Tap
-                      to Simulate Scan</span>
-                  </div>
-
-                  <div class="mt-3 text-center">
-                    <span class="text-[11px] text-slate-400 block font-mono">Target Asset: Rational Combi Oven
-                      #K-102</span>
-                  </div>
-
-                  <!-- Loading Overlay -->
-                  <div id="scan-loader"
-                    class="hidden absolute inset-0 bg-slate-900/95 flex flex-col items-center justify-center z-20">
-                    <i data-lucide="loader-2" class="w-9 h-9 text-brand-500 animate-spin mb-2"></i>
-                    <span class="text-xs text-slate-200 font-semibold">Reading Asset Passport...</span>
-                  </div>
-                </div>
-
-                <!-- Digital Asset Passport Card -->
-                <div id="scan-result-area"
-                  class="md:col-span-7 bg-slate-900/90 p-6 rounded-2xl border border-slate-800 flex flex-col justify-between transition-all">
-                  <div>
-                    <div class="flex items-start justify-between border-b border-slate-800 pb-4 mb-4">
-                      <div>
-                        <div class="flex items-center space-x-2 mb-1">
-                          <span
-                            class="inline-block text-[10px] uppercase font-bold tracking-wider text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded border border-emerald-500/30">Active
-                            Warranty</span>
-                          <span
-                            class="inline-block text-[10px] uppercase font-bold tracking-wider text-sky-400 bg-sky-500/10 px-2.5 py-0.5 rounded border border-sky-500/30">Riyadh
-                            Main Kitchen</span>
-                        </div>
-                        <h4 class="text-xl font-bold text-white font-heading">Rational iCombi Pro 10-Grid</h4>
-                        <p class="text-xs text-slate-400 font-mono mt-0.5">Asset Tag ID: #KSA-RAT-2024-9981</p>
-                      </div>
-                      <div class="text-right bg-slate-950 px-3 py-2 rounded-xl border border-slate-800">
-                        <span class="text-2xl font-extrabold text-emerald-400 font-heading">94%</span>
-                        <p class="text-[9px] text-slate-400 uppercase font-bold tracking-wider">Health Index</p>
-                      </div>
-                    </div>
-
-                    <!-- Asset Specs & Schedule Matrix -->
-                    <div class="grid grid-cols-2 gap-3 mb-5 text-xs">
-                      <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
-                        <span class="text-slate-400 block text-[10px] uppercase font-semibold">Last Certified
-                          Inspection</span>
-                        <span class="text-slate-200 font-bold mt-0.5 block">14 July 2026</span>
-                        <span class="text-[10px] text-slate-500 block">Tech: Master Unit #402</span>
-                      </div>
-                      <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
-                        <span class="text-slate-400 block text-[10px] uppercase font-semibold">Next PM Due Date</span>
-                        <span class="text-brand-400 font-bold mt-0.5 block">28 August 2026</span>
-                        <span class="text-[10px] text-brand-500/80 block">Descaling & Gasket Check</span>
-                      </div>
-                    </div>
-
-                    <!-- Service History Log -->
-                    <div class="space-y-2 mb-4">
-                      <span class="text-xs font-bold text-slate-200 block uppercase tracking-wider">Recent Asset Service
-                        Passport Log</span>
-                      <div class="bg-slate-950/80 p-3 rounded-xl border border-slate-800 text-xs space-y-2">
-                        <div
-                          class="flex items-center justify-between border-b border-slate-800/60 pb-1.5 text-slate-300">
-                          <span class="font-medium">Door Gasket Replacement & Steam Sensor Calibration</span>
-                          <span class="text-[11px] text-slate-400 font-mono">14 Jul 2026</span>
-                        </div>
-                        <div class="flex items-center justify-between text-slate-400">
-                          <span>Boiler Scale Flush & Thermostat Verification</span>
-                          <span class="text-[11px] text-slate-500 font-mono">02 May 2026</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="flex items-center justify-end space-x-3 pt-2 border-t border-slate-800/80">
-                    <button type="button"
-                      onclick="alert('Digital asset history concept loaded. Scan QR tags directly on kitchen equipment to pull real-time repair logs!')"
-                      class="px-4 py-2 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 transition-colors">
-                      Download Asset History PDF
-                    </button>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-
-            <!-- MOCKUP TAB 2: DIGITAL REQUEST LOGGING -->
-            <div id="tab-ticket" class="tab-content">
-              <div class="max-w-3xl mx-auto bg-slate-900/90 p-6 sm:p-8 rounded-2xl border border-slate-800">
-
-                <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-800">
-                  <div>
-                    <div
-                      class="inline-flex items-center text-[10px] uppercase font-bold tracking-wider text-brand-400 bg-brand-500/10 px-2 py-0.5 rounded mb-1">
-                      Digital Issue Dispatch Log
-                    </div>
-                    <h4 class="text-lg font-bold text-white font-heading">Log Commercial Equipment Issue</h4>
-                    <p class="text-xs text-slate-400">Digital ticket generation and proposed technician-assignment workflow
-                    </p>
-                  </div>
-                  <span id="mock-eta-display"
-                    class="text-xs font-semibold text-orange-400 bg-orange-500/10 px-3.5 py-2 rounded-xl border border-orange-500/30 flex items-center shadow-sm">
-                    <i data-lucide="clock" class="w-4 h-4 mr-1.5"></i>
-                    ⏱️ Example response target — not yet an active SLA
-                  </span>
-                </div>
-
-                <form id="mock-ticket-form" class="space-y-5 text-xs" onsubmit="event.preventDefault();">
-
-                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label class="block text-slate-300 font-semibold mb-1.5">Select Equipment Unit</label>
-                      <select
-                        class="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl p-3 focus:border-brand-500 focus:outline-none">
-                        <option>Pitco Double Deep Fryer #F-02 (Riyadh Line 1)</option>
-                        <option>Rational Combi Oven #K-102 (Riyadh Line 1)</option>
-                        <option>Foster Walk-in Freezer #REF-04 (Jeddah Branch)</option>
-                        <option>Winterhalter Conveyor Dishwasher #D-05 (Dammam)</option>
-                      </select>
-                    </div>
-
-                    <div>
-                      <label class="block text-slate-300 font-semibold mb-1.5">Primary Symptom Category</label>
-                      <select
-                        class="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl p-3 focus:border-brand-500 focus:outline-none">
-                        <option>Heating Failure / Thermostat Fault</option>
-                        <option>Refrigeration Temperature Spike</option>
-                        <option>Water Leak / Boiler Descaling Alarm</option>
-                        <option>Electrical Tripping / Control Board Error</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div>
-                    <label class="block text-slate-300 font-semibold mb-1.5">Select Issue Severity Level</label>
-                    <div class="grid grid-cols-3 gap-3">
-                      <button type="button" data-severity="critical"
-                        class="severity-btn p-3 rounded-xl bg-slate-800 text-center hover:bg-slate-700 transition-all border border-slate-700">
-                        <span class="block text-red-400 font-bold text-sm">Critical</span>
-                        <span class="text-[10px] text-slate-400 mt-0.5 block">Kitchen Line Halted</span>
-                      </button>
-                      <button type="button" data-severity="high"
-                        class="severity-btn ring-2 ring-orange-500 bg-orange-500/20 p-3 rounded-xl text-center transition-all border border-slate-700">
-                        <span class="block text-orange-400 font-bold text-sm">High</span>
-                        <span class="text-[10px] text-slate-400 mt-0.5 block">Degraded Capacity</span>
-                      </button>
-                      <button type="button" data-severity="low"
-                        class="severity-btn p-3 rounded-xl bg-slate-800 text-center hover:bg-slate-700 transition-all border border-slate-700">
-                        <span class="block text-slate-300 font-bold text-sm">Routine</span>
-                        <span class="text-[10px] text-slate-400 mt-0.5 block">Non-Urgent Maintenance</span>
-                      </button>
-                    </div>
-                  </div>
-
-                  <div>
-                    <label class="block text-slate-300 font-semibold mb-1.5">Issue Notes & Audio/Photo Evidence</label>
-                    <div
-                      class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 flex items-center justify-between text-slate-300">
-                      <span class="text-xs font-mono">Thermostat fluctuating • Oil temp failing to reach 180°C
-                        threshold</span>
-                      <span
-                        class="text-[10px] bg-slate-800 text-brand-400 px-2.5 py-1 rounded-md font-semibold flex items-center">
-                        <i data-lucide="paperclip" class="w-3 h-3 mr-1"></i> 1 Photo Attached
-                      </span>
-                    </div>
-                  </div>
-
-                  <div class="pt-2">
-                    <button type="button" id="mock-dispatch-btn"
-                      class="w-full py-3.5 rounded-xl font-extrabold text-white bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-600 hover:to-brand-700 shadow-lg shadow-brand-500/25 transition-all text-xs uppercase tracking-wider flex items-center justify-center">
-                      <i data-lucide="send" class="w-4 h-4 mr-2"></i>
-                      Simulate Digital Request Logging
-                    </button>
-                  </div>
-                </form>
-
-                <div id="mock-dispatch-toast"
-                  class="hidden mt-4 bg-emerald-500/10 border border-emerald-500/30 p-3 rounded-xl text-emerald-400 text-xs text-center font-semibold">
-                  ✓ Prototype ticket #TK-8841 generated. Technician assignment and response targets will be validated during pilots.
-                </div>
-
-              </div>
-            </div>
-
-            <!-- MOCKUP TAB 3: PREVENTIVE INSPECTION SCHEDULES -->
-            <div id="tab-pm" class="tab-content">
-              <div class="bg-slate-900/90 p-6 sm:p-8 rounded-2xl border border-slate-800">
-
-                <div class="flex flex-wrap items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-800">
-                  <div>
-                    <div
-                      class="inline-flex items-center text-[10px] uppercase font-bold tracking-wider text-sky-400 bg-sky-500/10 px-2.5 py-0.5 rounded mb-1">
-                      Automated Maintenance Calendar
-                    </div>
-                    <h4 class="text-lg font-bold text-white font-heading">Preventive Inspection Schedules (August 2026)
-                    </h4>
-                    <p class="text-xs text-slate-400">Scheduled maintenance routines to prevent emergency kitchen
-                      downtime</p>
-                  </div>
-                  <div class="flex items-center space-x-2">
-                    <span
-                      class="text-xs font-semibold text-emerald-400 bg-emerald-500/10 px-3.5 py-1.5 rounded-xl border border-emerald-500/30 flex items-center">
-                      <i data-lucide="check-circle-2" class="w-4 h-4 mr-1.5"></i>
-                      3 Visits Confirmed
-                    </span>
-                  </div>
-                </div>
-
-                <div class="space-y-4">
-
-                  <!-- Schedule Item 1 -->
-                  <div
-                    class="p-4 rounded-xl bg-slate-950 border-l-4 border-l-brand-500 border border-slate-800/80 text-xs">
-                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                      <div class="flex items-start space-x-3.5">
-                        <div
-                          class="p-2.5 rounded-xl bg-slate-900 text-brand-400 font-extrabold text-center min-w-[54px] border border-slate-800">
-                          <span class="block text-sm">12</span>
-                          <span class="block text-[9px] uppercase tracking-wider text-slate-400">AUG</span>
-                        </div>
-                        <div>
-                          <h5 class="text-white font-bold text-sm font-heading">Rational Combi Oven Quarterly Descaling
-                            & Boiler Care</h5>
-                          <p class="text-slate-400 text-xs mt-0.5">Riyadh Main Kitchen • Assigned Unit: Specialized
-                            Thermal Tech Team</p>
-                          <div class="flex items-center space-x-2 mt-2 text-[11px] text-slate-400">
-                            <span class="bg-slate-900 px-2 py-0.5 rounded border border-slate-800">Boiler Scale
-                              Check</span>
-                            <span class="bg-slate-900 px-2 py-0.5 rounded border border-slate-800">Door Gasket Seal
-                              Audit</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="sm:text-right flex sm:flex-col justify-between items-end gap-2">
-                        <span
-                          class="px-3 py-1 rounded-lg text-[11px] font-bold bg-brand-500/10 text-brand-400 border border-brand-500/30">Confirmed
-                          Slot</span>
-                        <span class="text-[10px] text-slate-500 font-mono">ETA 09:00 AM</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Schedule Item 2 -->
-                  <div
-                    class="p-4 rounded-xl bg-slate-950 border-l-4 border-l-sky-500 border border-slate-800/80 text-xs">
-                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                      <div class="flex items-start space-x-3.5">
-                        <div
-                          class="p-2.5 rounded-xl bg-slate-900 text-sky-400 font-extrabold text-center min-w-[54px] border border-slate-800">
-                          <span class="block text-sm">18</span>
-                          <span class="block text-[9px] uppercase tracking-wider text-slate-400">AUG</span>
-                        </div>
-                        <div>
-                          <h5 class="text-white font-bold text-sm font-heading">Walk-in Freezer Compressor & Refrigerant
-                            Inspection</h5>
-                          <p class="text-slate-400 text-xs mt-0.5">Jeddah Dark Kitchen Fleet #2 • HVAC & Cooling Unit
-                            Specialist</p>
-                          <div class="flex items-center space-x-2 mt-2 text-[11px] text-slate-400">
-                            <span class="bg-slate-900 px-2 py-0.5 rounded border border-slate-800">Freon Pressure
-                              Test</span>
-                            <span class="bg-slate-900 px-2 py-0.5 rounded border border-slate-800">Evaporator Coil
-                              Clean</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="sm:text-right flex sm:flex-col justify-between items-end gap-2">
-                        <span
-                          class="px-3 py-1 rounded-lg text-[11px] font-semibold bg-slate-800 text-slate-300 border border-slate-700">Reminders
-                          Sent</span>
-                        <span class="text-[10px] text-slate-500 font-mono">ETA 11:30 AM</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Schedule Item 3 -->
-                  <div
-                    class="p-4 rounded-xl bg-slate-950 border-l-4 border-l-emerald-500 border border-slate-800/80 text-xs">
-                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                      <div class="flex items-start space-x-3.5">
-                        <div
-                          class="p-2.5 rounded-xl bg-slate-900 text-emerald-400 font-extrabold text-center min-w-[54px] border border-slate-800">
-                          <span class="block text-sm">28</span>
-                          <span class="block text-[9px] uppercase tracking-wider text-slate-400">AUG</span>
-                        </div>
-                        <div>
-                          <h5 class="text-white font-bold text-sm font-heading">Exhaust Hood Degreasing & Fire Safety
-                            Compliance Audit</h5>
-                          <p class="text-slate-400 text-xs mt-0.5">Dammam Branch • Certified Extraction Maintenance Crew
-                          </p>
-                          <div class="flex items-center space-x-2 mt-2 text-[11px] text-slate-400">
-                            <span class="bg-slate-900 px-2 py-0.5 rounded border border-slate-800">Duct
-                              Inspection</span>
-                            <span class="bg-slate-900 px-2 py-0.5 rounded border border-slate-800">Ansul System
-                              Check</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="sm:text-right flex sm:flex-col justify-between items-end gap-2">
-                        <span
-                          class="px-3 py-1 rounded-lg text-[11px] font-semibold bg-slate-800 text-slate-300 border border-slate-700">Parts
-                          Pre-ordered</span>
-                        <span class="text-[10px] text-slate-500 font-mono">ETA 02:00 PM</span>
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- WAITLIST MEMBER BENEFITS SECTION -->
-    <section id="benefits" class="py-20 bg-slate-950/80 border-t border-slate-800">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-        <div class="text-center max-w-3xl mx-auto mb-16">
-          <div
-            class="inline-flex items-center px-3.5 py-1.5 rounded-full bg-brand-500/10 border border-brand-500/30 text-brand-400 text-xs font-semibold mb-3">
-            <i data-lucide="gift" class="w-3.5 h-3.5 mr-1.5 text-brand-500"></i>
-            Riyadh Design-Partner Programme
-          </div>
-          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-heading text-white tracking-tight">Help Build
-            the Service Around Real Kitchens</h2>
-          <p class="mt-3 text-slate-300 text-base sm:text-lg">We are seeking multi-outlet operators willing to share
-            real maintenance workflows and evaluate a limited pilot. Applying does not create a purchase commitment.</p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-
-          <!-- Benefit 1 -->
-          <div class="glass-card glass-card-hover p-8 rounded-2xl text-left flex flex-col justify-between">
-            <div>
-              <div
-                class="w-12 h-12 rounded-xl bg-brand-500/15 border border-brand-500/30 flex items-center justify-center text-brand-400 mb-6 shadow-inner">
-                <i data-lucide="zap" class="w-6 h-6"></i>
-              </div>
-              <h3 class="text-xl font-bold text-white font-heading mb-2">Baseline Asset Review</h3>
-              <p class="text-slate-300 text-sm leading-relaxed">
-                Map selected equipment, current service records, breakdown patterns and maintenance spend to establish
-                a measurable starting point before any pilot begins.
-              </p>
-            </div>
-            <div class="mt-6 pt-4 border-t border-slate-800/80 text-xs font-semibold text-brand-400 flex items-center">
-              <span>Define the baseline</span>
-              <i data-lucide="arrow-right" class="w-3.5 h-3.5 ml-1"></i>
-            </div>
-          </div>
-
-          <!-- Benefit 2 -->
-          <div class="glass-card glass-card-hover p-8 rounded-2xl text-left flex flex-col justify-between">
-            <div>
-              <div
-                class="w-12 h-12 rounded-xl bg-sky-500/15 border border-sky-500/30 flex items-center justify-center text-sky-400 mb-6 shadow-inner">
-                <i data-lucide="clipboard-check" class="w-6 h-6"></i>
-              </div>
-              <h3 class="text-xl font-bold text-white font-heading mb-2">Controlled Pilot Scope</h3>
-              <p class="text-slate-300 text-sm leading-relaxed">
-                Agree the outlets, equipment categories, workflow and success measures in advance. Commercial terms,
-                if any, will be shared transparently before participation.
-              </p>
-            </div>
-            <div class="mt-6 pt-4 border-t border-slate-800/80 text-xs font-semibold text-sky-400 flex items-center">
-              <span>No surprise commitment</span>
-              <i data-lucide="arrow-right" class="w-3.5 h-3.5 ml-1"></i>
-            </div>
-          </div>
-
-          <!-- Benefit 3 -->
-          <div class="glass-card glass-card-hover p-8 rounded-2xl text-left flex flex-col justify-between">
-            <div>
-              <div
-                class="w-12 h-12 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 mb-6 shadow-inner">
-                <i data-lucide="message-square-heart" class="w-6 h-6"></i>
-              </div>
-              <h3 class="text-xl font-bold text-white font-heading mb-2">Measured Outcomes</h3>
-              <p class="text-slate-300 text-sm leading-relaxed">
-                Evaluate response time, first-time fix rate, repeat failures, maintenance cost and downtime. Any public
-                performance claims will be based on validated pilot results.
-              </p>
-            </div>
-            <div
-              class="mt-6 pt-4 border-t border-slate-800/80 text-xs font-semibold text-emerald-400 flex items-center">
-              <span>Evidence before claims</span>
-              <i data-lucide="arrow-right" class="w-3.5 h-3.5 ml-1"></i>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-    </section>
-
-    <!-- LEAD CAPTURE WAITLIST FORM SECTION -->
-    <section id="waitlist-form-section" class="py-24 relative bg-hero-grid border-t border-slate-800">
-      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-
-        <div class="glass-card p-8 sm:p-12 rounded-3xl border-brand-500/40 relative overflow-hidden shadow-2xl">
-
-          <div class="text-center max-w-2xl mx-auto mb-10">
-            <div
-              class="inline-flex items-center px-3 py-1 rounded-full bg-brand-500/10 border border-brand-500/30 text-brand-400 text-xs font-semibold mb-3">
-              <i data-lucide="sparkles" class="w-3.5 h-3.5 mr-1.5"></i>
-              Limited Riyadh Pilot Discovery
-            </div>
-            <h2 class="text-3xl sm:text-4xl font-extrabold font-heading text-white tracking-tight">Apply as a
-              Design Partner</h2>
-            <p class="mt-3 text-slate-300 text-sm sm:text-base">
-              Suitable operators will be invited to a discovery call before any pilot scope, service promise or
-              commercial terms are agreed. Please do not submit confidential operational information here.
-            </p>
-          </div>
-
-          <!-- Form Element -->
-          <form id="waitlist-form" action="https://formsubmit.co/ajax/nhlcvsbus@gmail.com" method="POST" class="space-y-6">
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-
-              <!-- Full Name -->
-              <div>
-                <label for="form-name"
-                  class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">Name *</label>
-                <div class="relative">
-                  <i data-lucide="user" class="w-5 h-5 text-slate-500 absolute left-3.5 top-3.5"></i>
-                  <input type="text" id="form-name" name="name" required placeholder="e.g. Tariq Al-Mansoor"
-                    class="custom-input w-full pl-11 pr-4 py-3 rounded-xl text-sm">
-                </div>
-              </div>
-
-              <!-- Restaurant / Brand Name -->
-              <div>
-                <label for="form-brand"
-                  class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">Brand Name *</label>
-                <div class="relative">
-                  <i data-lucide="utensils" class="w-5 h-5 text-slate-500 absolute left-3.5 top-3.5"></i>
-                  <input type="text" id="form-brand" name="brand" required placeholder="e.g. Golden Grill Group"
-                    class="custom-input w-full pl-11 pr-4 py-3 rounded-xl text-sm">
-                </div>
-              </div>
-
-              <!-- Number of Outlets -->
-              <div>
-                <label for="form-outlets"
-                  class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">Outlet Count
-                  *</label>
-                <div class="relative">
-                  <i data-lucide="store" class="w-5 h-5 text-slate-500 absolute left-3.5 top-3.5"></i>
-                  <select id="form-outlets" name="outlets" required
-                    class="custom-input w-full pl-11 pr-4 py-3 rounded-xl text-sm appearance-none">
-                    <option value="1-2 Outlets">1 - 2 Outlets</option>
-                    <option value="3-5 Outlets">3 - 5 Outlets</option>
-                    <option value="6-15 Outlets">6 - 15 Outlets</option>
-                    <option value="16+ Outlets (Fleet / Cloud Kitchen)">16+ Outlets (Fleet / Cloud Kitchen)</option>
-                  </select>
-                </div>
-              </div>
-
-              <!-- Primary City -->
-              <div>
-                <label for="form-city"
-                  class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">City *</label>
-                <div class="relative">
-                  <i data-lucide="map-pin" class="w-5 h-5 text-slate-500 absolute left-3.5 top-3.5"></i>
-                  <select id="form-city" name="city" required
-                    class="custom-input w-full pl-11 pr-4 py-3 rounded-xl text-sm appearance-none">
-                    <option value="Riyadh">Riyadh</option>
-                    <option value="Jeddah">Jeddah</option>
-                    <option value="Eastern Province">Eastern Province</option>
-                    <option value="Other KSA City">Other KSA City</option>
-                  </select>
-                </div>
-              </div>
-
-            </div>
-
-            <!-- WhatsApp Number -->
-            <div>
-              <label for="form-whatsapp"
-                class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">WhatsApp Number
-                *</label>
-              <div class="relative">
-                <i data-lucide="phone" class="w-5 h-5 text-slate-500 absolute left-3.5 top-3.5"></i>
-                <input type="tel" id="form-whatsapp" name="whatsapp" required placeholder="+966 5X XXX XXXX"
-                  class="custom-input w-full pl-11 pr-4 py-3 rounded-xl text-sm">
-              </div>
-            </div>
-
-            <!-- Submit CTA -->
-            <label class="flex items-start gap-3 text-xs text-slate-300">
-              <input type="checkbox" name="contact_consent" required class="mt-0.5 accent-orange-500">
-              <span>I agree that Fixive may use these details to contact me about research and a potential pilot. This
-                is not a service booking or purchase commitment.</span>
-            </label>
-
-            <div>
-              <button type="submit"
-                class="w-full py-4 rounded-xl font-extrabold text-base text-white bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-600 hover:to-brand-700 shadow-xl shadow-brand-500/30 transition-all hover:scale-[1.01] active:scale-[0.99] uppercase tracking-wider">
-                Submit Pilot Application
-              </button>
-            </div>
-
-            <!-- Mandatory Pre-launch Compliance Disclaimer Note below Form -->
-            <div
-              class="mt-6 bg-slate-900/90 p-4 rounded-xl border border-amber-500/30 flex items-start space-x-3 text-xs text-slate-300">
-              <i data-lucide="info" class="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5"></i>
-              <p>
-                <strong class="text-amber-400 font-semibold">Disclaimer:</strong> Fixive is currently in active
-                development and is not yet offering commercial services. Performance targets, technician coverage and
-                pricing remain subject to validation. Submitted details are used for Fixive research and pilot contact.
-              </p>
-            </div>
-          </form>
-
-        </div>
-
-      </div>
-    </section>
-
-  </main>
-
-  <!-- FOOTER & REGULATORY DISCLAIMER -->
-  <footer class="bg-navy-950 border-t border-slate-800/80 pt-16 pb-12 text-slate-400">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 pb-12 border-b border-slate-800/80">
-
-        <!-- Brand Info -->
-        <div class="md:col-span-5 space-y-4">
-          <div class="flex items-center space-x-3">
-            <div class="w-8 h-8 rounded-lg bg-brand-500 flex items-center justify-center text-white font-bold">
-              <i data-lucide="wrench" class="w-4 h-4"></i>
-            </div>
-            <span class="text-xl font-bold font-heading text-white">Fixive<span class="text-brand-500">.</span></span>
-          </div>
-          <p class="text-xs text-slate-400 leading-relaxed max-w-sm">
-            Developing next-generation scheduled preventive maintenance, digital QR asset tracking, and streamlined
-            dispatch workflows for commercial kitchens across Saudi Arabia.
-          </p>
-          <div class="flex items-center space-x-2 text-xs text-slate-300 font-medium">
-            <span>🇸🇦 Designed for KSA F&B Industry</span>
-          </div>
-        </div>
-
-        <!-- Quick Links -->
-        <div class="md:col-span-3 space-y-3">
-          <h4 class="text-xs font-bold uppercase tracking-wider text-slate-200">Platform Concept</h4>
-          <ul class="space-y-2 text-xs">
-            <li><a href="#vision" class="hover:text-brand-400">Vision & Objectives</a></li>
-            <li><a href="#solution" class="hover:text-brand-400">Preventive Maintenance Frameworks</a></li>
-            <li><a href="#preview" class="hover:text-brand-400">Interactive Prototype Preview</a></li>
-            <li><a href="#benefits" class="hover:text-brand-400">Early Access Perks</a></li>
-          </ul>
-        </div>
-
-        <!-- Contact & Legal -->
-        <div class="md:col-span-4 space-y-3">
-          <h4 class="text-xs font-bold uppercase tracking-wider text-slate-200">Concept Contact</h4>
-          <p class="text-xs text-slate-400">For market research inquiries or F&B operator advisory feedback:</p>
-          <a href="mailto:nhlcvsbus@gmail.com"
-            class="inline-flex items-center text-xs font-semibold text-brand-400 hover:underline">
-            <i data-lucide="mail" class="w-3.5 h-3.5 mr-1.5"></i>
-            nhlcvsbus@gmail.com
-          </a>
-        </div>
-
-      </div>
-
-      <!-- MANDATORY REGULATORY COMPLIANCE DISCLAIMER BANNER -->
-      <div class="pt-8 text-center max-w-4xl mx-auto space-y-4">
-        <div class="bg-slate-900/60 p-4.5 rounded-xl border border-slate-800 text-xs text-slate-300 leading-relaxed">
-          <strong class="text-white font-semibold block mb-1">Mandatory Legal Notice:</strong>
-          Fixive is a technology platform concept currently under development. Commercial services will commence only
-          upon full legal incorporation and necessary licensing in the Kingdom of Saudi Arabia.
-        </div>
-
-        <p class="text-[11px] text-slate-500">
-          © 2026 Fixive. All rights reserved. Designed for F&B operations in KSA.
-        </p>
-      </div>
-
-    </div>
-  </footer>
-
-  <!-- INTERACTIVE CONFIRMATION MODAL -->
-  <div id="confirmation-modal" class="fixed inset-0 z-50 hidden modal-backdrop items-center justify-center p-4">
-    <div class="bg-navy-800 border border-brand-500/40 rounded-2xl max-w-md w-full p-6 shadow-2xl text-center relative">
-
-      <div
-        class="w-16 h-16 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 mx-auto flex items-center justify-center mb-4">
-        <i data-lucide="check-circle" class="w-8 h-8"></i>
-      </div>
-
-      <h3 class="text-2xl font-bold text-white font-heading">Application Received</h3>
-      <p class="text-xs text-slate-300 mt-2">
-        Thank you, <span id="modal-user-name" class="font-bold text-brand-400">User</span>. We received the pilot
-        application for <span id="modal-brand-name" class="font-semibold text-white">Brand</span> (<span
-          id="modal-city" class="text-slate-300">City</span>).
-      </p>
-
-      <div class="bg-slate-900 p-4 rounded-xl border border-slate-700/80 my-5">
-        <span class="text-sm font-bold text-brand-400 block">What happens next</span>
-        <span class="text-[11px] text-slate-400">We will review operational fit and contact suitable design partners for a discovery call. No SLA or service is active yet.</span>
-      </div>
-
-      <div class="space-y-3">
-        <button id="copy-link-btn" type="button"
-          class="w-full py-2.5 rounded-lg text-xs font-semibold bg-slate-700 hover:bg-slate-600 text-white transition-colors flex items-center justify-center">
-          <i data-lucide="share-2" class="w-4 h-4 mr-1.5"></i>
-          Share Fixive Pilot Page
-        </button>
-
-        <button id="close-modal-btn" type="button"
-          class="w-full py-2.5 rounded-lg text-xs font-bold bg-brand-500 hover:bg-brand-600 text-white uppercase tracking-wider">
-          Done
-        </button>
-      </div>
-
-    </div>
+  <div id="mobile-menu" class="mobile-menu hidden">
+    <a href="#problem">Problem</a>
+    <a href="#workflow">How it works</a>
+    <a href="#preview">Prototype</a>
+    <a href="#pilot">Pilot</a>
+    <a href="#waitlist-form-section">Apply for discovery</a>
   </div>
 
-  <!-- External JS -->
+  <main id="top">
+    <section id="vision" class="hero-section">
+      <div class="hero-copy">
+        <p class="eyebrow"><span></span> Preventive maintenance company. Condition monitoring built in.</p>
+        <h1>Preventing kitchen equipment failures before service breaks.</h1>
+        <p class="hero-lede">Fixive maintains commercial kitchen equipment proactively, using current and temperature monitoring to spot abnormal strain, schedule inspections, and verify that maintenance actually improved equipment condition.</p>
+        <div class="hero-actions">
+          <a class="primary-button" href="#waitlist-form-section"><i data-lucide="user-plus"></i> Request pilot assessment</a>
+          <a class="secondary-button" href="#preview"><i data-lucide="layout-dashboard"></i> See condition monitoring</a>
+        </div>
+        <p class="stage-note">We are building a preventive maintenance service for commercial kitchens, starting with monitored refrigeration pilots in Riyadh.</p>
+      </div>
+      <div class="hero-panel" aria-label="Fixive condition monitoring summary">
+        <div class="panel-topline"><span>Condition monitored PM</span><strong>Riyadh pilot</strong></div>
+        <div class="health-ring"><span>87%</span><small>cycle stability index</small></div>
+        <div class="hero-metrics">
+          <div><strong>50-100</strong><span>target monitored assets</span></div>
+          <div><strong>10-20</strong><span>Riyadh outlets</span></div>
+          <div><strong>24/7</strong><span>condition signal logging</span></div>
+        </div>
+        <div class="ticket-strip">
+          <span class="ticket-priority">Alert</span>
+          <div><strong>Compressor duty ratio rising</strong><small>Temperature still in range - anomaly requires inspection</small></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="problem" class="section split-section">
+      <div>
+        <p class="section-kicker">Why this matters</p>
+        <h2>Most kitchen maintenance starts after warning signs were already missed.</h2>
+      </div>
+      <div class="pain-grid">
+        <article><i data-lucide="activity"></i><h3>Invisible mechanical strain</h3><p>A refrigerator can hold setpoint while duty cycle, runtime, and recovery performance quietly deteriorate.</p></article>
+        <article><i data-lucide="triangle-alert"></i><h3>Reactive intervention</h3><p>Teams often act only after a temperature excursion, product risk, or service disruption is already visible.</p></article>
+        <article><i data-lucide="badge-check"></i><h3>No proof of recovery</h3><p>A completed maintenance visit does not prove that energy use, cycles, or thermal performance actually recovered.</p></article>
+      </div>
+    </section>
+
+    <section id="workflow" class="section workflow-section">
+      <div class="section-heading">
+        <p class="section-kicker">Preventive maintenance model</p>
+        <h2>Monitor condition, inspect early, maintain before breakdown.</h2>
+      </div>
+      <div class="workflow-grid">
+        <article><span>01</span><h3>Monitor</h3><p>Install condition monitoring on priority equipment, starting with non-invasive current sensing and temperature logging for refrigeration.</p></article>
+        <article><span>02</span><h3>Detect</h3><p>Watch for changes in duty cycle, runtime, recovery time, and thermal behavior that suggest equipment strain.</p></article>
+        <article><span>03</span><h3>Maintain</h3><p>Schedule preventive inspections and maintenance before the issue becomes downtime, product risk, or emergency repair.</p></article>
+        <article><span>04</span><h3>Verify</h3><p>Use before-and-after condition data to confirm whether the maintenance action restored healthier operation.</p></article>
+      </div>
+    </section>
+
+    <section id="preview" class="section preview-section">
+      <div class="section-heading">
+        <p class="section-kicker">Condition monitoring preview</p>
+        <h2>The monitoring layer behind Fixive preventive maintenance.</h2>
+        <p>Prototype data only. Sensor readings, alerts, equipment records, maintenance events, and performance indicators are simulated.</p>
+      </div>
+      <div class="product-shell">
+        <div class="product-sidebar">
+          <strong>Fixive PM</strong>
+          <button data-tab="tab-qr" class="tab-btn active" type="button"><i data-lucide="radio-receiver"></i> Sensor baseline</button>
+          <button data-tab="tab-ticket" class="tab-btn" type="button"><i data-lucide="bell-ring"></i> Maintenance trigger</button>
+          <button data-tab="tab-pm" class="tab-btn" type="button"><i data-lucide="chart-no-axes-combined"></i> Pilot evidence</button>
+        </div>
+        <div class="product-content">
+          <div id="tab-qr" class="tab-content active">
+            <div class="asset-layout">
+              <button id="scan-simulate-btn" class="scanner-card" type="button">
+                <span class="scanner-line"></span>
+                <i data-lucide="waves"></i>
+                <strong>Tap to simulate baseline learning</strong>
+                <small>Walk-in chiller #REF-04</small>
+              </button>
+              <div id="scan-result-area" class="asset-card">
+                <div id="scan-loader" class="scan-loader hidden"><i data-lucide="loader-2"></i> Learning current + temperature baseline</div>
+                <div class="asset-header">
+                  <div><span class="status-tag good">Baseline learned</span><h3>Walk-in Chiller - Riyadh Outlet 04</h3><p>Condition monitoring for preventive maintenance</p></div>
+                  <strong>91%</strong>
+                </div>
+                <div class="asset-facts">
+                  <span><b>Duty ratio</b>42% baseline</span>
+                  <span><b>Recovery</b>11 min average</span>
+                  <span><b>Temperature</b>2.8C median</span>
+                </div>
+                <div class="activity-list">
+                  <p><b>Current draw stable after defrost cycle</b><span>Today</span></p>
+                  <p><b>Door-open recovery trend improving</b><span>7 days</span></p>
+                  <p><b>Compressor runtime drift under observation</b><span>14 days</span></p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="tab-ticket" class="tab-content">
+            <div class="ticket-board">
+              <div class="ticket-head">
+                <div><span class="status-tag warm">Maintenance trigger</span><h3>Turn abnormal condition into preventive action</h3><p>Fixive uses signal changes to schedule inspection and maintenance before failure.</p></div>
+                <span id="mock-eta-display" class="eta-chip">Anomaly priority - pilot hypothesis</span>
+              </div>
+              <div class="form-grid compact">
+                <label>Asset<select><option>Walk-in chiller #REF-04</option></select></label>
+                <label>Signal change<select><option>Duty ratio and recovery time rising</option></select></label>
+              </div>
+              <div class="severity-grid">
+                <button type="button" data-severity="critical" class="severity-btn">Excursion<small>Product risk</small></button>
+                <button type="button" data-severity="high" class="severity-btn selected">Anomaly<small>Baseline drift</small></button>
+                <button type="button" data-severity="low" class="severity-btn">Observe<small>Learning period</small></button>
+              </div>
+              <div class="evidence-row"><span>Current cycles increased 18% while box temperature remains in range</span><b>Signal + note</b></div>
+              <button id="mock-dispatch-btn" class="primary-button full-width" type="button"><i data-lucide="send"></i> Simulate preventive maintenance trigger</button>
+              <div id="mock-dispatch-toast" class="toast hidden">Prototype trigger #PM-8841 created. Maintenance action and post-service recovery would be validated during pilots.</div>
+            </div>
+          </div>
+          <div id="tab-pm" class="tab-content">
+            <div class="schedule-list">
+              <div class="schedule-item"><time><b>0-3</b>MO</time><div><h3>Prepare monitored preventive maintenance pilot</h3><p>Customer discovery, refrigeration monitoring scope, and baseline learning plan</p></div><span>Now</span></div>
+              <div class="schedule-item"><time><b>3-6</b>MO</time><div><h3>Maintain 50-100 monitored refrigeration assets</h3><p>Selected Riyadh outlets with current, temperature, runtime, and duty-ratio tracking</p></div><span>Phase 1</span></div>
+              <div class="schedule-item"><time><b>6-12</b>MO</time><div><h3>Validate earlier maintenance decisions</h3><p>Technician-confirmed causes plus before-and-after condition data</p></div><span>Evidence</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="pilot" class="section pilot-section">
+      <div class="section-heading">
+        <p class="section-kicker">Focused service scope</p>
+        <h2>A preventive maintenance company, beginning with monitored refrigeration.</h2>
+      </div>
+      <div class="benefit-grid">
+        <article><i data-lucide="thermometer"></i><h3>Phase 1: refrigeration</h3><p>Provide preventive maintenance for selected refrigeration assets across 10-20 Riyadh outlets, supported by condition monitoring.</p></article>
+        <article><i data-lucide="search-check"></i><h3>Technician-led service</h3><p>Monitoring informs when to inspect, but the company value is delivered through maintenance action and operational follow-through.</p></article>
+        <article><i data-lucide="line-chart"></i><h3>Measured improvement</h3><p>Use condition data before and after maintenance to evaluate fewer surprises, healthier assets, and measurable operating value.</p></article>
+      </div>
+    </section>
+
+    <section id="waitlist-form-section" class="section form-section">
+      <div class="form-card">
+        <div>
+          <p class="section-kicker">Build the Saudi pilot with us</p>
+          <h2>Apply for a monitored preventive maintenance pilot.</h2>
+          <p>We are seeking Riyadh restaurant groups operating 5-50 outlets where recurring equipment issues make proactive maintenance valuable.</p>
+        </div>
+        <form id="waitlist-form" action="https://formsubmit.co/ajax/nhlcvsbus@gmail.com" method="POST">
+          <div class="form-grid">
+            <label for="form-name">Name *<input id="form-name" name="name" type="text" required placeholder="Tariq Al-Mansoor"></label>
+            <label for="form-brand">Brand name *<input id="form-brand" name="brand" type="text" required placeholder="Golden Grill Group"></label>
+            <label for="form-outlets">Outlet count *<select id="form-outlets" name="outlets" required><option value="1-2 Outlets">1 - 2 outlets</option><option value="3-5 Outlets">3 - 5 outlets</option><option value="6-15 Outlets">6 - 15 outlets</option><option value="16+ Outlets (Fleet / Cloud Kitchen)">16+ outlets / cloud kitchen fleet</option></select></label>
+            <label for="form-city">City *<select id="form-city" name="city" required><option value="Riyadh">Riyadh</option><option value="Jeddah">Jeddah</option><option value="Eastern Province">Eastern Province</option><option value="Other KSA City">Other KSA city</option></select></label>
+          </div>
+          <label for="form-whatsapp">WhatsApp number *<input id="form-whatsapp" name="whatsapp" type="tel" required placeholder="+966 5X XXX XXXX"></label>
+          <label class="consent-row"><input type="checkbox" name="contact_consent" required><span>I agree that Fixive may contact me about research, condition monitoring validation, and a potential preventive maintenance pilot. This is not a service booking or purchase commitment.</span></label>
+          <button class="primary-button full-width" type="submit">Submit pilot interest</button>
+          <p class="form-disclaimer">Fixive is currently in prototype validation and is not yet offering commercial services. Monitoring accuracy, preventive maintenance workflows, post-service verification, coverage, and pricing remain subject to pilot evidence.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div><strong>Fixive</strong><p>Preventive maintenance for commercial kitchen equipment, powered by condition monitoring and starting with refrigeration in Riyadh.</p></div>
+    <div><a href="mailto:nhlcvsbus@gmail.com">nhlcvsbus@gmail.com</a><p>Pilot-stage concept. Commercial services will commence only upon legal incorporation and necessary licensing in KSA.</p></div>
+  </footer>
+
+  <div id="confirmation-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="confirmation-title">
+    <div class="modal-card">
+      <i data-lucide="check-circle-2"></i>
+      <h3 id="confirmation-title">Pilot interest received</h3>
+      <p>Thank you, <span id="modal-user-name">User</span>. We received the discovery request for <span id="modal-brand-name">Brand</span> in <span id="modal-city">City</span>.</p>
+      <button id="copy-link-btn" class="secondary-button full-width" type="button"><i data-lucide="share-2"></i> Share Fixive pilot page</button>
+      <button id="close-modal-btn" class="primary-button full-width" type="button">Done</button>
+    </div>
+  </div>
   <script src="app.js"></script>
 </body>
-
 </html>

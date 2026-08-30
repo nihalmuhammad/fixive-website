@@ -1,5 +1,5 @@
 /**
- * Fixive - Commercial Kitchen Maintenance Platform Landing Page Logic
+ * Fixive - Preventive Maintenance Landing Page Logic
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 3. Interactive Concept Dashboard Tabs
+  // 3. Interactive Condition Monitoring Preview Tabs
   const tabBtns = document.querySelectorAll('.tab-btn');
   const tabContents = document.querySelectorAll('.tab-content');
 
@@ -34,62 +34,46 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.addEventListener('click', () => {
       const targetTab = btn.getAttribute('data-tab');
 
-      // Update button active state
-      tabBtns.forEach(b => {
-        b.classList.remove('active', 'bg-orange-500/10', 'border-orange-500', 'text-orange-500');
-        b.classList.add('border-transparent', 'text-slate-400');
-      });
-
-      btn.classList.add('active', 'bg-orange-500/10', 'border-orange-500', 'text-orange-500');
-      btn.classList.remove('border-transparent', 'text-slate-400');
+      tabBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
 
       // Update active tab content
       tabContents.forEach(content => {
         if (content.id === targetTab) {
           content.classList.add('active');
-          content.style.display = 'block';
-          setTimeout(() => {
-            content.style.opacity = '1';
-          }, 50);
         } else {
           content.classList.remove('active');
-          content.style.opacity = '0';
-          content.style.display = 'none';
         }
       });
     });
   });
 
-  // 4. Maintenance Request Flow Interactive Severity Switcher (Tab 2)
+  // 4. Preventive Maintenance Trigger Priority Switcher (Tab 2)
   const severityBtns = document.querySelectorAll('.severity-btn');
   const etaDisplay = document.getElementById('mock-eta-display');
 
   severityBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-      severityBtns.forEach(b => {
-        b.classList.remove('ring-2', 'ring-orange-500', 'bg-orange-500/20');
-        b.classList.add('bg-slate-800');
-      });
-      btn.classList.add('ring-2', 'ring-orange-500', 'bg-orange-500/20');
-      btn.classList.remove('bg-slate-800');
+      severityBtns.forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
 
       const level = btn.getAttribute('data-severity');
       if (etaDisplay) {
         if (level === 'critical') {
-          etaDisplay.textContent = '⚡ 60-Min Guaranteed Response Target';
-          etaDisplay.className = 'text-xs font-semibold text-red-400 bg-red-500/10 px-3 py-1.5 rounded-md border border-red-500/30';
+          etaDisplay.textContent = 'Temperature excursion - product risk review';
+          etaDisplay.className = 'eta-chip critical';
         } else if (level === 'high') {
-          etaDisplay.textContent = '⏱️ Example response target (pilot hypothesis)';
-          etaDisplay.className = 'text-xs font-semibold text-orange-400 bg-orange-500/10 px-3 py-1.5 rounded-md border border-orange-500/30';
+          etaDisplay.textContent = 'Anomaly priority - pilot hypothesis';
+          etaDisplay.className = 'eta-chip';
         } else {
-          etaDisplay.textContent = '📅 Next Morning Scheduled Visit';
-          etaDisplay.className = 'text-xs font-semibold text-slate-300 bg-slate-800 px-3 py-1.5 rounded-md border border-slate-700';
+          etaDisplay.textContent = 'Observation mode - baseline still learning';
+          etaDisplay.className = 'eta-chip routine';
         }
       }
     });
   });
 
-  // 5. QR Code Asset Scan Simulator (Tab 1)
+  // 5. Sensor Baseline Simulator (Tab 1)
   const scanSimulateBtn = document.getElementById('scan-simulate-btn');
   const scanResultArea = document.getElementById('scan-result-area');
   const scanLoader = document.getElementById('scan-loader');
@@ -104,15 +88,15 @@ document.addEventListener('DOMContentLoaded', () => {
         scanResultArea.classList.remove('opacity-40');
         
         // Flash subtle success highlight
-        scanResultArea.classList.add('ring-2', 'ring-emerald-500');
+        scanResultArea.classList.add('scan-success');
         setTimeout(() => {
-          scanResultArea.classList.remove('ring-2', 'ring-emerald-500');
+          scanResultArea.classList.remove('scan-success');
         }, 1500);
       }, 1000);
     });
   }
 
-  // 5b. Digital Request Logging Dispatch Simulator (Tab 2)
+  // 5b. Alert Workflow Simulator (Tab 2)
   const mockDispatchBtn = document.getElementById('mock-dispatch-btn');
   const mockDispatchToast = document.getElementById('mock-dispatch-toast');
 
@@ -156,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Build form submission payload
       const formData = new FormData(waitlistForm);
-      formData.append('_subject', `New Fixive Pilot Application from ${brandName} (${city})`);
+      formData.append('_subject', `New Fixive Preventive Maintenance Pilot Interest from ${brandName} (${city})`);
       formData.append('_template', 'table');
       formData.append('_captcha', 'false');
 
