@@ -3,6 +3,9 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+  const AR = document.documentElement.lang === 'ar';
+  const t = (en, ar) => (AR ? ar : en);
+
   // 1. Initialize Lucide Icons
   if (window.lucide) {
     lucide.createIcons();
@@ -60,13 +63,13 @@ document.addEventListener('DOMContentLoaded', () => {
       const level = btn.getAttribute('data-severity');
       if (etaDisplay) {
         if (level === 'critical') {
-          etaDisplay.textContent = 'Temperature excursion - product risk review';
+          etaDisplay.textContent = t('Temperature excursion - product risk review', 'تجاوز حد الحرارة - مراجعة خطر المنتجات');
           etaDisplay.className = 'eta-chip critical';
         } else if (level === 'high') {
-          etaDisplay.textContent = 'Anomaly priority - pilot hypothesis';
+          etaDisplay.textContent = t('Anomaly priority - pilot hypothesis', 'أولوية: حالة غير طبيعية - فرضية تجريبية');
           etaDisplay.className = 'eta-chip';
         } else {
-          etaDisplay.textContent = 'Observation mode - baseline still learning';
+          etaDisplay.textContent = t('Observation mode - baseline still learning', 'وضع المراقبة - جارٍ تعلّم الوضع الطبيعي');
           etaDisplay.className = 'eta-chip routine';
         }
       }
@@ -126,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const whatsapp = document.getElementById('form-whatsapp') ? document.getElementById('form-whatsapp').value.trim() : '';
 
       if (!fullName || !brandName || !whatsapp) {
-        alert('Please fill out all required fields.');
+        alert(t('Please fill out all required fields.', 'يرجى تعبئة جميع الحقول المطلوبة.'));
         return;
       }
 
@@ -134,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const originalBtnText = submitBtn ? submitBtn.innerHTML : '';
       if (submitBtn) {
         submitBtn.disabled = true;
-        submitBtn.innerHTML = `<i data-lucide="loader-2" class="w-5 h-5 animate-spin inline mr-2"></i> Submitting Enquiry...`;
+        submitBtn.innerHTML = `<i data-lucide="loader-2" class="w-5 h-5 animate-spin inline mr-2"></i> ${t('Submitting Enquiry...', 'جارٍ الإرسال...')}`;
         if (window.lucide) lucide.createIcons();
       }
 
@@ -167,7 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
         submissionSucceeded = response.ok && data && data.success !== 'false';
       } catch (err) {
         console.warn('Enquiry mail API notice:', err);
-        alert('We could not send your application. Please try again or contact Fixive by email.');
+        alert(t('We could not send your application. Please try again or contact Fixive by email.', 'تعذّر إرسال طلبك. حاول مرة أخرى أو تواصل مع Fixive بالبريد الإلكتروني.'));
       } finally {
         if (submitBtn) {
           submitBtn.disabled = false;
@@ -214,7 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
     copyLinkBtn.addEventListener('click', () => {
       navigator.clipboard.writeText(window.location.href).then(() => {
         const originalText = copyLinkBtn.innerHTML;
-        copyLinkBtn.innerHTML = `<i data-lucide="check" class="w-4 h-4 text-emerald-400 inline mr-1"></i> Copied to Clipboard!`;
+        copyLinkBtn.innerHTML = `<i data-lucide="check" class="w-4 h-4 text-emerald-400 inline mr-1"></i> ${t('Copied to Clipboard!', 'تم نسخ الرابط')}`;
         if (window.lucide) lucide.createIcons();
         setTimeout(() => {
           copyLinkBtn.innerHTML = originalText;

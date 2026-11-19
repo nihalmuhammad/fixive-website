@@ -3,8 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fixive | Preventive Maintenance with Condition Monitoring</title>
-  <meta name="description" content="Fixive is a preventive maintenance company for commercial kitchen equipment, using condition monitoring to find equipment strain before failures happen.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <title>Fixive | Kitchen equipment monitoring and preventive maintenance</title>
+  <meta name="description" content="Fixive monitors commercial kitchen equipment in Saudi Arabia, starting with refrigeration, so problems are caught before they cause downtime.">
+  <meta property="og:title" content="Fixive | Catch kitchen equipment trouble before it stops service">
+  <meta property="og:description" content="Kitchen equipment monitoring and preventive maintenance for restaurants and food shops in Saudi Arabia. Starting with refrigeration. Pilot stage.">
+  <meta property="og:image" content="https://fixivetech.com/assets/og-image.jpg">
+  <meta property="og:url" content="https://fixivetech.com/">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="alternate" hreflang="en" href="https://fixivetech.com/">
+  <link rel="alternate" hreflang="ar" href="https://fixivetech.com/ar/">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
@@ -14,50 +25,54 @@
 <body>
   <header class="site-header">
     <a class="brand" href="#top" aria-label="Fixive home">
-      <span class="brand-mark"><i data-lucide="activity"></i></span>
+      <span class="brand-mark"><svg viewBox="0 0 64 64" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 52V12H48" stroke="#0b0f16" stroke-width="7"/><path d="M18 33H27L32 24L38 42L42 33H48" stroke="#ffffff" stroke-width="5.5"/></svg></span>
       <span><strong>Fixive</strong><small>Preventive maintenance</small></span>
     </a>
     <nav class="desktop-nav" aria-label="Primary navigation">
-      <a href="#problem">Problem</a>
+      <a href="#problem">Why</a>
       <a href="#workflow">How it works</a>
-      <a href="#preview">Prototype</a>
+      <a href="#built">What's built</a>
+      <a href="#preview">Demo</a>
       <a href="#pilot">Pilot</a>
+      <a class="lang-switch" href="ar/" lang="ar">العربية</a>
     </nav>
     <a class="header-cta" href="#waitlist-form-section"><i data-lucide="arrow-right"></i> Apply</a>
     <button id="mobile-menu-btn" class="menu-button" type="button" aria-label="Toggle navigation"><i data-lucide="menu"></i></button>
   </header>
 
   <div id="mobile-menu" class="mobile-menu hidden">
-    <a href="#problem">Problem</a>
+    <a href="#problem">Why</a>
     <a href="#workflow">How it works</a>
-    <a href="#preview">Prototype</a>
+    <a href="#built">What's built</a>
+    <a href="#preview">Demo</a>
     <a href="#pilot">Pilot</a>
-    <a href="#waitlist-form-section">Apply for discovery</a>
+    <a href="#waitlist-form-section">Request a free pilot</a>
+    <a class="lang-switch" href="ar/" lang="ar">العربية</a>
   </div>
 
   <main id="top">
     <section id="vision" class="hero-section">
       <div class="hero-copy">
-        <p class="eyebrow"><span></span> Preventive maintenance company. Condition monitoring built in.</p>
-        <h1>Preventing kitchen equipment failures before service breaks.</h1>
-        <p class="hero-lede">Fixive maintains commercial kitchen equipment proactively, using current and temperature monitoring to spot abnormal strain, schedule inspections, and verify that maintenance actually improved equipment condition.</p>
+        <p class="eyebrow"><span></span> Kitchen equipment monitoring and preventive maintenance. Saudi Arabia.</p>
+        <h1>Catch kitchen equipment trouble before it stops service.</h1>
+        <p class="hero-lede">Fixive puts small sensors on commercial kitchen equipment, starting with chillers and freezers. Readings are taken every minute, so a problem shows up as a warning on your phone, not as a breakdown in the middle of service.</p>
         <div class="hero-actions">
-          <a class="primary-button" href="#waitlist-form-section"><i data-lucide="user-plus"></i> Request pilot assessment</a>
-          <a class="secondary-button" href="#preview"><i data-lucide="layout-dashboard"></i> See condition monitoring</a>
+          <a class="primary-button" href="#waitlist-form-section"><i data-lucide="user-plus"></i> Request a free pilot</a>
+          <a class="secondary-button" href="#built"><i data-lucide="layout-dashboard"></i> See what's built</a>
         </div>
-        <p class="stage-note">We are building a preventive maintenance service for commercial kitchens, starting with monitored refrigeration pilots in Riyadh.</p>
+        <p class="stage-note">Pilot stage, starting with refrigeration. Sensor units are running at a restaurant in Al Ahsa, and more sites are being added.</p>
       </div>
-      <div class="hero-panel" aria-label="Fixive condition monitoring summary">
-        <div class="panel-topline"><span>Condition monitored PM</span><strong>Riyadh pilot</strong></div>
-        <div class="health-ring"><span>87%</span><small>cycle stability index</small></div>
+      <div class="hero-panel" aria-label="Sample view of one monitored unit">
+        <div class="panel-topline"><span>Walk-in chiller</span><strong>Sample view</strong></div>
+        <div class="health-ring"><span>3.8&deg;C</span><small>cabinet now, limit 8&deg;C</small></div>
         <div class="hero-metrics">
-          <div><strong>50-100</strong><span>target monitored assets</span></div>
-          <div><strong>10-20</strong><span>Riyadh outlets</span></div>
-          <div><strong>24/7</strong><span>condition signal logging</span></div>
+          <div><strong>1 min</strong><span>between readings</span></div>
+          <div><strong>3</strong><span>sensors per unit</span></div>
+          <div><strong>24/7</strong><span>logging, kept if Wi-Fi drops</span></div>
         </div>
         <div class="ticket-strip">
-          <span class="ticket-priority">Alert</span>
-          <div><strong>Compressor duty ratio rising</strong><small>Temperature still in range - anomaly requires inspection</small></div>
+          <span class="ticket-priority">Warning</span>
+          <div><strong>Compressor running longer than usual</strong><small>Temperature still in range. Inspection suggested.</small></div>
         </div>
       </div>
     </section>
@@ -65,40 +80,52 @@
     <section id="problem" class="section split-section">
       <div>
         <p class="section-kicker">Why this matters</p>
-        <h2>Most kitchen maintenance starts after warning signs were already missed.</h2>
+        <h2>Kitchen equipment rarely fails without warning. The warning just goes unseen.</h2>
       </div>
       <div class="pain-grid">
-        <article><i data-lucide="activity"></i><h3>Invisible mechanical strain</h3><p>A refrigerator can hold setpoint while duty cycle, runtime, and recovery performance quietly deteriorate.</p></article>
-        <article><i data-lucide="triangle-alert"></i><h3>Reactive intervention</h3><p>Teams often act only after a temperature excursion, product risk, or service disruption is already visible.</p></article>
-        <article><i data-lucide="badge-check"></i><h3>No proof of recovery</h3><p>A completed maintenance visit does not prove that energy use, cycles, or thermal performance actually recovered.</p></article>
+        <article><i data-lucide="activity"></i><h3>See trouble early</h3><p>Equipment often keeps working while it strains. A fridge can hold its temperature while the compressor works harder and harder. Fixive watches the load, not only the temperature.</p></article>
+        <article><i data-lucide="triangle-alert"></i><h3>The right person knows</h3><p>One dashboard for every unit and branch, with a temperature limit for each cabinet. Phone alerts are next on the build list.</p></article>
+        <article><i data-lucide="badge-check"></i><h3>Less downtime, proven</h3><p>Planned visits replace emergency call-outs, and readings before and after a repair show whether the unit actually recovered.</p></article>
       </div>
     </section>
 
     <section id="workflow" class="section workflow-section">
       <div class="section-heading">
-        <p class="section-kicker">Preventive maintenance model</p>
-        <h2>Monitor condition, inspect early, maintain before breakdown.</h2>
+        <p class="section-kicker">How it works</p>
+        <h2>Fit the sensor, watch the unit, act early, confirm the fix.</h2>
       </div>
       <div class="workflow-grid">
-        <article><span>01</span><h3>Monitor</h3><p>Install condition monitoring on priority equipment, starting with non-invasive current sensing and temperature logging for refrigeration.</p></article>
-        <article><span>02</span><h3>Detect</h3><p>Watch for changes in duty cycle, runtime, recovery time, and thermal behavior that suggest equipment strain.</p></article>
-        <article><span>03</span><h3>Maintain</h3><p>Schedule preventive inspections and maintenance before the issue becomes downtime, product risk, or emergency repair.</p></article>
-        <article><span>04</span><h3>Verify</h3><p>Use before-and-after condition data to confirm whether the maintenance action restored healthier operation.</p></article>
+        <article><span>01</span><h3>Fit</h3><p>A clamp-on current sensor and temperature probes go on the unit. Nothing is cut or opened in the equipment.</p></article>
+        <article><span>02</span><h3>Watch</h3><p>A reading is taken every minute and kept on the device if the Wi-Fi drops, then sent when it returns.</p></article>
+        <article><span>03</span><h3>Act</h3><p>When a limit is crossed or the compressor pattern changes, an inspection is planned before it becomes a breakdown.</p></article>
+        <article><span>04</span><h3>Confirm</h3><p>The fix is logged and checked against the readings, so you can see that the unit is healthy again.</p></article>
+      </div>
+    </section>
+
+    <section id="built" class="section built-section">
+      <div class="section-heading">
+        <p class="section-kicker">What's built</p>
+        <h2>A working sensor unit and a live dashboard.</h2>
+        <p>Fixive Pilot 1.0, our current sensor unit, has been built and tested on a working refrigerator. Pilot sites sign in to the dashboard to see their own units.</p>
+      </div>
+      <div class="built-grid">
+        <figure><img src="assets/fixive-sensor-board.jpg" alt="Fixive Pilot 1.0 sensor unit circuit board with its parts labelled" loading="lazy"><figcaption>Fixive Pilot 1.0 sensor unit. It reads cabinet temperature, compressor discharge temperature and compressor current.</figcaption></figure>
+        <figure><img src="assets/fixive-dashboard-sample.jpg" alt="Fixive dashboard layout showing unit status, statistics and a temperature chart" loading="lazy"><figcaption>Dashboard layout, shown with sample data. <a href="dashboard/">Pilot sites sign in here.</a></figcaption></figure>
       </div>
     </section>
 
     <section id="preview" class="section preview-section">
       <div class="section-heading">
-        <p class="section-kicker">Condition monitoring preview</p>
-        <h2>The monitoring layer behind Fixive preventive maintenance.</h2>
-        <p>Prototype data only. Sensor readings, alerts, equipment records, maintenance events, and performance indicators are simulated.</p>
+        <p class="section-kicker">Interactive demo</p>
+        <h2>Where the monitoring is heading.</h2>
+        <p>Demo only. Sensor readings, alerts, equipment records, maintenance events, and performance indicators in this demo are simulated.</p>
       </div>
       <div class="product-shell">
         <div class="product-sidebar">
           <strong>Fixive PM</strong>
           <button data-tab="tab-qr" class="tab-btn active" type="button"><i data-lucide="radio-receiver"></i> Sensor baseline</button>
           <button data-tab="tab-ticket" class="tab-btn" type="button"><i data-lucide="bell-ring"></i> Maintenance trigger</button>
-          <button data-tab="tab-pm" class="tab-btn" type="button"><i data-lucide="chart-no-axes-combined"></i> Pilot evidence</button>
+          <button data-tab="tab-pm" class="tab-btn" type="button"><i data-lucide="chart-no-axes-combined"></i> Roadmap</button>
         </div>
         <div class="product-content">
           <div id="tab-qr" class="tab-content active">
@@ -112,7 +139,7 @@
               <div id="scan-result-area" class="asset-card">
                 <div id="scan-loader" class="scan-loader hidden"><i data-lucide="loader-2"></i> Learning current + temperature baseline</div>
                 <div class="asset-header">
-                  <div><span class="status-tag good">Baseline learned</span><h3>Walk-in Chiller - Riyadh Outlet 04</h3><p>Condition monitoring for preventive maintenance</p></div>
+                  <div><span class="status-tag good">Baseline learned</span><h3>Walk-in Chiller - Outlet 04</h3><p>Condition monitoring for preventive maintenance</p></div>
                   <strong>91%</strong>
                 </div>
                 <div class="asset-facts">
@@ -150,9 +177,9 @@
           </div>
           <div id="tab-pm" class="tab-content">
             <div class="schedule-list">
-              <div class="schedule-item"><time><b>0-3</b>MO</time><div><h3>Prepare monitored preventive maintenance pilot</h3><p>Customer discovery, refrigeration monitoring scope, and baseline learning plan</p></div><span>Now</span></div>
-              <div class="schedule-item"><time><b>3-6</b>MO</time><div><h3>Maintain 50-100 monitored refrigeration assets</h3><p>Selected Riyadh outlets with current, temperature, runtime, and duty-ratio tracking</p></div><span>Phase 1</span></div>
-              <div class="schedule-item"><time><b>6-12</b>MO</time><div><h3>Validate earlier maintenance decisions</h3><p>Technician-confirmed causes plus before-and-after condition data</p></div><span>Evidence</span></div>
+              <div class="schedule-item"><time><b>1</b>NOW</time><div><h3>Temperature and compressor monitoring</h3><p>Refrigeration units at pilot sites, with a dashboard and a limit for each cabinet</p></div><span>Now</span></div>
+              <div class="schedule-item"><time><b>2</b>NEXT</time><div><h3>Phone alerts and more sites</h3><p>Alerts to the right person, and pilots in Al Ahsa, Dammam and Riyadh</p></div><span>Next</span></div>
+              <div class="schedule-item"><time><b>3</b>LATER</time><div><h3>More kitchen equipment, energy use, earlier fault warnings</h3><p>Beyond refrigeration, once pilot data supports it. Not available today.</p></div><span>Later</span></div>
             </div>
           </div>
         </div>
@@ -161,29 +188,29 @@
 
     <section id="pilot" class="section pilot-section">
       <div class="section-heading">
-        <p class="section-kicker">Focused service scope</p>
-        <h2>A preventive maintenance company, beginning with monitored refrigeration.</h2>
+        <p class="section-kicker">The pilot</p>
+        <h2>A free pilot, starting with your refrigeration.</h2>
       </div>
       <div class="benefit-grid">
-        <article><i data-lucide="thermometer"></i><h3>Phase 1: refrigeration</h3><p>Provide preventive maintenance for selected refrigeration assets across 10-20 Riyadh outlets, supported by condition monitoring.</p></article>
-        <article><i data-lucide="search-check"></i><h3>Technician-led service</h3><p>Monitoring informs when to inspect, but the company value is delivered through maintenance action and operational follow-through.</p></article>
-        <article><i data-lucide="line-chart"></i><h3>Measured improvement</h3><p>Use condition data before and after maintenance to evaluate fewer surprises, healthier assets, and measurable operating value.</p></article>
+        <article><i data-lucide="thermometer"></i><h3>Your units, monitored</h3><p>We fit sensors on selected chillers and freezers and give you a dashboard login. The pilot is free and carries no purchase commitment.</p></article>
+        <article><i data-lucide="search-check"></i><h3>Technician-led service</h3><p>Monitoring shows when to inspect. The value comes from the maintenance visit and the follow-through after it.</p></article>
+        <article><i data-lucide="handshake"></i><h3>For service partners</h3><p>Refrigeration contractors and POS platforms: monitored units give your customers a reason to call before the breakdown. Write to us to talk about working together.</p></article>
       </div>
     </section>
 
     <section id="waitlist-form-section" class="section form-section">
       <div class="form-card">
         <div>
-          <p class="section-kicker">Build the Saudi pilot with us</p>
-          <h2>Apply for a monitored preventive maintenance pilot.</h2>
-          <p>We are seeking Riyadh restaurant groups operating 5-50 outlets where recurring equipment issues make proactive maintenance valuable.</p>
+          <p class="section-kicker">Join the pilot</p>
+          <h2>Request a free equipment monitoring pilot.</h2>
+          <p>We are looking for restaurants and food shops in Al Ahsa, Dammam and Riyadh. The pilot starts with your fridges, freezers and walk-in rooms.</p>
         </div>
         <form id="waitlist-form" action="https://formsubmit.co/ajax/nhlcvsbus@gmail.com" method="POST">
           <div class="form-grid">
             <label for="form-name">Name *<input id="form-name" name="name" type="text" required placeholder="Tariq Al-Mansoor"></label>
             <label for="form-brand">Brand name *<input id="form-brand" name="brand" type="text" required placeholder="Golden Grill Group"></label>
             <label for="form-outlets">Outlet count *<select id="form-outlets" name="outlets" required><option value="1-2 Outlets">1 - 2 outlets</option><option value="3-5 Outlets">3 - 5 outlets</option><option value="6-15 Outlets">6 - 15 outlets</option><option value="16+ Outlets (Fleet / Cloud Kitchen)">16+ outlets / cloud kitchen fleet</option></select></label>
-            <label for="form-city">City *<select id="form-city" name="city" required><option value="Riyadh">Riyadh</option><option value="Jeddah">Jeddah</option><option value="Eastern Province">Eastern Province</option><option value="Other KSA City">Other KSA city</option></select></label>
+            <label for="form-city">City *<select id="form-city" name="city" required><option value="Al Ahsa">Al Ahsa</option><option value="Dammam / Khobar">Dammam / Khobar</option><option value="Riyadh">Riyadh</option><option value="Jeddah">Jeddah</option><option value="Eastern Province">Eastern Province (other)</option><option value="Other KSA City">Other KSA city</option></select></label>
           </div>
           <label for="form-whatsapp">WhatsApp number *<input id="form-whatsapp" name="whatsapp" type="tel" required placeholder="+966 5X XXX XXXX"></label>
           <label class="consent-row"><input type="checkbox" name="contact_consent" required><span>I agree that Fixive may contact me about research, condition monitoring validation, and a potential preventive maintenance pilot. This is not a service booking or purchase commitment.</span></label>
@@ -195,8 +222,8 @@
   </main>
 
   <footer>
-    <div><strong>Fixive</strong><p>Preventive maintenance for commercial kitchen equipment, powered by condition monitoring and starting with refrigeration in Riyadh.</p></div>
-    <div><a href="mailto:nhlcvsbus@gmail.com">nhlcvsbus@gmail.com</a><p>Pilot-stage concept. Commercial services will commence only upon legal incorporation and necessary licensing in KSA.</p></div>
+    <div><strong>Fixive</strong><p>Kitchen equipment monitoring and preventive maintenance for restaurants and food shops in Saudi Arabia, starting with refrigeration.</p></div>
+    <div><a href="mailto:nhlcvsbus@gmail.com">nhlcvsbus@gmail.com</a> &middot; <a href="dashboard/">Dashboard sign-in</a><p>Pilot-stage concept. Commercial services will commence only upon legal incorporation and necessary licensing in KSA.</p></div>
   </footer>
 
   <div id="confirmation-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="confirmation-title">

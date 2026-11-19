@@ -4,6 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
 <title>Fixive | Pilot dashboard</title>
 <meta name="theme-color" content="#07090d">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,7 +28,7 @@
            background:rgba(7,9,13,0.86); border-bottom:1px solid rgba(255,255,255,0.10); backdrop-filter:blur(18px); flex-wrap:wrap; }
   .brand { display:inline-flex; align-items:center; gap:12px; margin-right:auto; }
   .brand-mark { display:inline-flex; align-items:center; justify-content:center; width:42px; height:42px; color:#0b0d12; background:var(--orange); border-radius:8px; }
-  .brand-mark svg { width:20px; height:20px; }
+  .brand-mark svg { width:30px; height:30px; }
   .brand strong { display:block; font-family:Sora,sans-serif; font-size:1.25rem; }
   .brand small { display:block; color:var(--muted); font-size:0.72rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; }
   .tag { font-size:11px; padding:3px 9px; border-radius:999px; background:rgba(245,158,11,0.16); color:#fbbf24; font-weight:700; letter-spacing:0.06em; }
@@ -92,7 +95,7 @@
 </head>
 <body>
 <section id="login" hidden>
-  <a class="brand" href="/" aria-label="Fixive home"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span><span><strong>Fixive</strong><small>Preventive maintenance</small></span></a>
+  <a class="brand" href="/" aria-label="Fixive home"><span class="brand-mark"><svg viewBox="0 0 64 64" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 52V12H48" stroke="#0b0f16" stroke-width="7"/><path d="M18 33H27L32 24L38 42L42 33H48" stroke="#ffffff" stroke-width="5.5"/></svg></span><span><strong>Fixive</strong><small>Preventive maintenance</small></span></a>
   <h2>Pilot dashboard</h2><p>Test access. Sign in to view the monitored units.</p>
   <form id="loginForm">
     <label for="email">Email</label><input id="email" type="email" autocomplete="username" required>
@@ -104,7 +107,7 @@
 
 <div id="app" hidden>
   <header>
-    <a class="brand" href="/" aria-label="Fixive home"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span><span><strong>Fixive</strong><small>Pilot dashboard</small></span></a>
+    <a class="brand" href="/" aria-label="Fixive home"><span class="brand-mark"><svg viewBox="0 0 64 64" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 52V12H48" stroke="#0b0f16" stroke-width="7"/><path d="M18 33H27L32 24L38 42L42 33H48" stroke="#ffffff" stroke-width="5.5"/></svg></span><span><strong>Fixive</strong><small>Pilot dashboard</small></span></a>
     <span class="tag">TEST</span>
     <select id="range" aria-label="Period">
       <option value="24">Last 24 hours</option><option value="168" selected>Last 7 days</option><option value="720">Last 30 days</option><option value="custom">Custom dates…</option>
