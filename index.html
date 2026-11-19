@@ -32,7 +32,7 @@
       <a href="#problem">Why</a>
       <a href="#workflow">How it works</a>
       <a href="#built">What's built</a>
-      <a href="#preview">Demo</a>
+      <a href="#roadmap">Roadmap</a>
       <a href="#pilot">Pilot</a>
       <a class="lang-switch" href="ar/" lang="ar">العربية</a>
     </nav>
@@ -44,7 +44,7 @@
     <a href="#problem">Why</a>
     <a href="#workflow">How it works</a>
     <a href="#built">What's built</a>
-    <a href="#preview">Demo</a>
+    <a href="#roadmap">Roadmap</a>
     <a href="#pilot">Pilot</a>
     <a href="#waitlist-form-section">Request a free pilot</a>
     <a class="lang-switch" href="ar/" lang="ar">العربية</a>
@@ -114,75 +114,15 @@
       </div>
     </section>
 
-    <section id="preview" class="section preview-section">
+    <section id="roadmap" class="section roadmap-section">
       <div class="section-heading">
-        <p class="section-kicker">Interactive demo</p>
-        <h2>Where the monitoring is heading.</h2>
-        <p>Demo only. Sensor readings, alerts, equipment records, maintenance events, and performance indicators in this demo are simulated.</p>
+        <p class="section-kicker">Roadmap</p>
+        <h2>What works now, and what comes next.</h2>
       </div>
-      <div class="product-shell">
-        <div class="product-sidebar">
-          <strong>Fixive PM</strong>
-          <button data-tab="tab-qr" class="tab-btn active" type="button"><i data-lucide="radio-receiver"></i> Sensor baseline</button>
-          <button data-tab="tab-ticket" class="tab-btn" type="button"><i data-lucide="bell-ring"></i> Maintenance trigger</button>
-          <button data-tab="tab-pm" class="tab-btn" type="button"><i data-lucide="chart-no-axes-combined"></i> Roadmap</button>
-        </div>
-        <div class="product-content">
-          <div id="tab-qr" class="tab-content active">
-            <div class="asset-layout">
-              <button id="scan-simulate-btn" class="scanner-card" type="button">
-                <span class="scanner-line"></span>
-                <i data-lucide="waves"></i>
-                <strong>Tap to simulate baseline learning</strong>
-                <small>Walk-in chiller #REF-04</small>
-              </button>
-              <div id="scan-result-area" class="asset-card">
-                <div id="scan-loader" class="scan-loader hidden"><i data-lucide="loader-2"></i> Learning current + temperature baseline</div>
-                <div class="asset-header">
-                  <div><span class="status-tag good">Baseline learned</span><h3>Walk-in Chiller - Outlet 04</h3><p>Condition monitoring for preventive maintenance</p></div>
-                  <strong>91%</strong>
-                </div>
-                <div class="asset-facts">
-                  <span><b>Duty ratio</b>42% baseline</span>
-                  <span><b>Recovery</b>11 min average</span>
-                  <span><b>Temperature</b>2.8C median</span>
-                </div>
-                <div class="activity-list">
-                  <p><b>Current draw stable after defrost cycle</b><span>Today</span></p>
-                  <p><b>Door-open recovery trend improving</b><span>7 days</span></p>
-                  <p><b>Compressor runtime drift under observation</b><span>14 days</span></p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="tab-ticket" class="tab-content">
-            <div class="ticket-board">
-              <div class="ticket-head">
-                <div><span class="status-tag warm">Maintenance trigger</span><h3>Turn abnormal condition into preventive action</h3><p>Fixive uses signal changes to schedule inspection and maintenance before failure.</p></div>
-                <span id="mock-eta-display" class="eta-chip">Anomaly priority - pilot hypothesis</span>
-              </div>
-              <div class="form-grid compact">
-                <label>Asset<select><option>Walk-in chiller #REF-04</option></select></label>
-                <label>Signal change<select><option>Duty ratio and recovery time rising</option></select></label>
-              </div>
-              <div class="severity-grid">
-                <button type="button" data-severity="critical" class="severity-btn">Excursion<small>Product risk</small></button>
-                <button type="button" data-severity="high" class="severity-btn selected">Anomaly<small>Baseline drift</small></button>
-                <button type="button" data-severity="low" class="severity-btn">Observe<small>Learning period</small></button>
-              </div>
-              <div class="evidence-row"><span>Current cycles increased 18% while box temperature remains in range</span><b>Signal + note</b></div>
-              <button id="mock-dispatch-btn" class="primary-button full-width" type="button"><i data-lucide="send"></i> Simulate preventive maintenance trigger</button>
-              <div id="mock-dispatch-toast" class="toast hidden">Prototype trigger #PM-8841 created. Maintenance action and post-service recovery would be validated during pilots.</div>
-            </div>
-          </div>
-          <div id="tab-pm" class="tab-content">
-            <div class="schedule-list">
-              <div class="schedule-item"><time><b>1</b>NOW</time><div><h3>Temperature and compressor monitoring</h3><p>Refrigeration units at pilot sites, with a dashboard and a limit for each cabinet</p></div><span>Now</span></div>
-              <div class="schedule-item"><time><b>2</b>NEXT</time><div><h3>Phone alerts and more sites</h3><p>Alerts to the right person, and pilots in Al Ahsa, Dammam and Riyadh</p></div><span>Next</span></div>
-              <div class="schedule-item"><time><b>3</b>LATER</time><div><h3>More kitchen equipment, energy use, earlier fault warnings</h3><p>Beyond refrigeration, once pilot data supports it. Not available today.</p></div><span>Later</span></div>
-            </div>
-          </div>
-        </div>
+      <div class="schedule-list">
+        <div class="schedule-item"><time><b>1</b>NOW</time><div><h3>Temperature and compressor monitoring</h3><p>Refrigeration units at pilot sites, with a dashboard and a limit for each cabinet</p></div><span>Now</span></div>
+        <div class="schedule-item"><time><b>2</b>NEXT</time><div><h3>Phone alerts and more sites</h3><p>Alerts to the right person, and pilots in Al Ahsa, Dammam and Riyadh</p></div><span>Next</span></div>
+        <div class="schedule-item"><time><b>3</b>LATER</time><div><h3>More kitchen equipment, energy use, earlier fault warnings</h3><p>Beyond refrigeration, once pilot data supports it. Not available today.</p></div><span>Later</span></div>
       </div>
     </section>
 

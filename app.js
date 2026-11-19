@@ -29,91 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 3. Interactive Condition Monitoring Preview Tabs
-  const tabBtns = document.querySelectorAll('.tab-btn');
-  const tabContents = document.querySelectorAll('.tab-content');
-
-  tabBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const targetTab = btn.getAttribute('data-tab');
-
-      tabBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      // Update active tab content
-      tabContents.forEach(content => {
-        if (content.id === targetTab) {
-          content.classList.add('active');
-        } else {
-          content.classList.remove('active');
-        }
-      });
-    });
-  });
-
-  // 4. Preventive Maintenance Trigger Priority Switcher (Tab 2)
-  const severityBtns = document.querySelectorAll('.severity-btn');
-  const etaDisplay = document.getElementById('mock-eta-display');
-
-  severityBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      severityBtns.forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-
-      const level = btn.getAttribute('data-severity');
-      if (etaDisplay) {
-        if (level === 'critical') {
-          etaDisplay.textContent = t('Temperature excursion - product risk review', 'تجاوز حد الحرارة - مراجعة خطر المنتجات');
-          etaDisplay.className = 'eta-chip critical';
-        } else if (level === 'high') {
-          etaDisplay.textContent = t('Anomaly priority - pilot hypothesis', 'أولوية: حالة غير طبيعية - فرضية تجريبية');
-          etaDisplay.className = 'eta-chip';
-        } else {
-          etaDisplay.textContent = t('Observation mode - baseline still learning', 'وضع المراقبة - جارٍ تعلّم الوضع الطبيعي');
-          etaDisplay.className = 'eta-chip routine';
-        }
-      }
-    });
-  });
-
-  // 5. Sensor Baseline Simulator (Tab 1)
-  const scanSimulateBtn = document.getElementById('scan-simulate-btn');
-  const scanResultArea = document.getElementById('scan-result-area');
-  const scanLoader = document.getElementById('scan-loader');
-
-  if (scanSimulateBtn && scanResultArea && scanLoader) {
-    scanSimulateBtn.addEventListener('click', () => {
-      scanLoader.classList.remove('hidden');
-      scanResultArea.classList.add('opacity-40');
-
-      setTimeout(() => {
-        scanLoader.classList.add('hidden');
-        scanResultArea.classList.remove('opacity-40');
-        
-        // Flash subtle success highlight
-        scanResultArea.classList.add('scan-success');
-        setTimeout(() => {
-          scanResultArea.classList.remove('scan-success');
-        }, 1500);
-      }, 1000);
-    });
-  }
-
-  // 5b. Alert Workflow Simulator (Tab 2)
-  const mockDispatchBtn = document.getElementById('mock-dispatch-btn');
-  const mockDispatchToast = document.getElementById('mock-dispatch-toast');
-
-  if (mockDispatchBtn && mockDispatchToast) {
-    mockDispatchBtn.addEventListener('click', () => {
-      mockDispatchToast.classList.remove('hidden');
-      if (window.lucide) lucide.createIcons();
-      setTimeout(() => {
-        mockDispatchToast.classList.add('hidden');
-      }, 4500);
-    });
-  }
-
-  // 6. Pilot application form handling
+  // 3. Pilot application form handling
   const waitlistForm = document.getElementById('waitlist-form');
   const confirmationModal = document.getElementById('confirmation-modal');
   const closeModalBtn = document.getElementById('close-modal-btn');
@@ -211,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 7. Copy Referral/Waitlist Link
+  // 4. Copy Referral/Waitlist Link
   const copyLinkBtn = document.getElementById('copy-link-btn');
   if (copyLinkBtn) {
     copyLinkBtn.addEventListener('click', () => {

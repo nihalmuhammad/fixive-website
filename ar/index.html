@@ -32,7 +32,7 @@
       <a href="#problem">لماذا</a>
       <a href="#workflow">كيف يعمل</a>
       <a href="#built">ما تم بناؤه</a>
-      <a href="#preview">عرض تجريبي</a>
+      <a href="#roadmap">خارطة الطريق</a>
       <a href="#pilot">التجربة</a>
       <a class="lang-switch" href="../" lang="en">English</a>
     </nav>
@@ -44,7 +44,7 @@
     <a href="#problem">لماذا</a>
     <a href="#workflow">كيف يعمل</a>
     <a href="#built">ما تم بناؤه</a>
-    <a href="#preview">عرض تجريبي</a>
+    <a href="#roadmap">خارطة الطريق</a>
     <a href="#pilot">التجربة</a>
     <a href="#waitlist-form-section">اطلب تجربة مجانية</a>
     <a class="lang-switch" href="../" lang="en">English</a>
@@ -114,75 +114,15 @@
       </div>
     </section>
 
-    <section id="preview" class="section preview-section">
+    <section id="roadmap" class="section roadmap-section">
       <div class="section-heading">
-        <p class="section-kicker">عرض تفاعلي</p>
-        <h2>إلى أين تتجه المراقبة.</h2>
-        <p>للعرض فقط. قراءات الحساسات والتنبيهات وسجلات المعدات وأحداث الصيانة ومؤشرات الأداء في هذا العرض غير حقيقية.</p>
+        <p class="section-kicker">خارطة الطريق</p>
+        <h2>ما يعمل الآن، وما القادم.</h2>
       </div>
-      <div class="product-shell">
-        <div class="product-sidebar">
-          <strong>Fixive PM</strong>
-          <button data-tab="tab-qr" class="tab-btn active" type="button"><i data-lucide="radio-receiver"></i> الوضع الطبيعي</button>
-          <button data-tab="tab-ticket" class="tab-btn" type="button"><i data-lucide="bell-ring"></i> طلب صيانة</button>
-          <button data-tab="tab-pm" class="tab-btn" type="button"><i data-lucide="chart-no-axes-combined"></i> خارطة الطريق</button>
-        </div>
-        <div class="product-content">
-          <div id="tab-qr" class="tab-content active">
-            <div class="asset-layout">
-              <button id="scan-simulate-btn" class="scanner-card" type="button">
-                <span class="scanner-line"></span>
-                <i data-lucide="waves"></i>
-                <strong>اضغط لمحاكاة تعلّم الوضع الطبيعي</strong>
-                <small>غرفة تبريد <span dir="ltr">#REF-04</span></small>
-              </button>
-              <div id="scan-result-area" class="asset-card">
-                <div id="scan-loader" class="scan-loader hidden"><i data-lucide="loader-2"></i> جارٍ تعلّم الوضع الطبيعي للتيار والحرارة</div>
-                <div class="asset-header">
-                  <div><span class="status-tag good">تم تعلّم الوضع الطبيعي</span><h3>غرفة تبريد - الفرع 04</h3><p>مراقبة الحالة للصيانة الوقائية</p></div>
-                  <strong>91%</strong>
-                </div>
-                <div class="asset-facts">
-                  <span><b>نسبة التشغيل</b>42% في الوضع الطبيعي</span>
-                  <span><b>زمن الاستعادة</b>11 دقيقة في المتوسط</span>
-                  <span><b>الحرارة</b>2.8°م الوسيط</span>
-                </div>
-                <div class="activity-list">
-                  <p><b>التيار مستقر بعد دورة إذابة الثلج (الديفروست)</b><span>اليوم</span></p>
-                  <p><b>تحسّن زمن الاستعادة بعد فتح الباب</b><span>7 أيام</span></p>
-                  <p><b>تغيّر زمن تشغيل الكمبروسر قيد المتابعة</b><span>14 يومًا</span></p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="tab-ticket" class="tab-content">
-            <div class="ticket-board">
-              <div class="ticket-head">
-                <div><span class="status-tag warm">طلب صيانة</span><h3>حوّل الحالة غير الطبيعية إلى إجراء وقائي</h3><p>تستخدم Fixive تغيّر الإشارات لجدولة الفحص والصيانة قبل العطل.</p></div>
-                <span id="mock-eta-display" class="eta-chip">أولوية: حالة غير طبيعية - فرضية تجريبية</span>
-              </div>
-              <div class="form-grid compact">
-                <label>المعدة<select><option>غرفة تبريد #REF-04</option></select></label>
-                <label>تغيّر الإشارة<select><option>ارتفاع نسبة التشغيل وزمن الاستعادة</option></select></label>
-              </div>
-              <div class="severity-grid">
-                <button type="button" data-severity="critical" class="severity-btn">تجاوز الحد<small>خطر على المنتجات</small></button>
-                <button type="button" data-severity="high" class="severity-btn selected">حالة غير طبيعية<small>انحراف عن الوضع الطبيعي</small></button>
-                <button type="button" data-severity="low" class="severity-btn">مراقبة<small>فترة التعلّم</small></button>
-              </div>
-              <div class="evidence-row"><span>زادت دورات التيار 18% والحرارة ما زالت ضمن الحد</span><b>إشارة + ملاحظة</b></div>
-              <button id="mock-dispatch-btn" class="primary-button full-width" type="button"><i data-lucide="send"></i> محاكاة طلب صيانة وقائية</button>
-              <div id="mock-dispatch-toast" class="toast hidden">تم إنشاء طلب تجريبي <span dir="ltr">#PM-8841</span>. سيتم التحقق من إجراء الصيانة وتعافي الوحدة خلال التجارب.</div>
-            </div>
-          </div>
-          <div id="tab-pm" class="tab-content">
-            <div class="schedule-list">
-              <div class="schedule-item"><time><b>1</b>الآن</time><div><h3>مراقبة الحرارة والكمبروسر</h3><p>وحدات التبريد في المواقع التجريبية، مع لوحة متابعة وحدّ لكل ثلاجة</p></div><span>الآن</span></div>
-              <div class="schedule-item"><time><b>2</b>التالي</time><div><h3>تنبيهات الجوال ومواقع أكثر</h3><p>تنبيهات للشخص المناسب، وتجارب في الأحساء والدمام والرياض</p></div><span>التالي</span></div>
-              <div class="schedule-item"><time><b>3</b>لاحقًا</time><div><h3>معدات مطبخ أخرى، استهلاك الطاقة، وإنذار مبكر بالأعطال</h3><p>ما بعد التبريد، عندما تدعمه بيانات التجارب. غير متاح حاليًا.</p></div><span>لاحقًا</span></div>
-            </div>
-          </div>
-        </div>
+      <div class="schedule-list">
+        <div class="schedule-item"><time><b>1</b>الآن</time><div><h3>مراقبة الحرارة والكمبروسر</h3><p>وحدات التبريد في المواقع التجريبية، مع لوحة متابعة وحدّ لكل ثلاجة</p></div><span>الآن</span></div>
+        <div class="schedule-item"><time><b>2</b>التالي</time><div><h3>تنبيهات الجوال ومواقع أكثر</h3><p>تنبيهات للشخص المناسب، وتجارب في الأحساء والدمام والرياض</p></div><span>التالي</span></div>
+        <div class="schedule-item"><time><b>3</b>لاحقًا</time><div><h3>معدات مطبخ أخرى، استهلاك الطاقة، وإنذار مبكر بالأعطال</h3><p>ما بعد التبريد، عندما تدعمه بيانات التجارب. غير متاح حاليًا.</p></div><span>لاحقًا</span></div>
       </div>
     </section>
 
