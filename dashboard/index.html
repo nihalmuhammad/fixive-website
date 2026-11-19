@@ -110,9 +110,10 @@
     <a class="brand" href="/" aria-label="Fixive home"><span class="brand-mark"><svg viewBox="0 0 64 64" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 52V12H48" stroke="#0b0f16" stroke-width="7"/><path d="M18 33H27L32 24L38 42L42 33H48" stroke="#ffffff" stroke-width="5.5"/></svg></span><span><strong>Fixive</strong><small>Pilot dashboard</small></span></a>
     <span class="tag">TEST</span>
     <select id="range" aria-label="Period">
-      <option value="1" selected>Live (last hour)</option><option value="4">Last 4 hours</option><option value="24">Last 24 hours</option><option value="168">Last 7 days</option><option value="720">Last month</option><option value="custom">Custom dates…</option>
+      <option value="1">Live (last hour)</option><option value="4" selected>Last 4 hours</option><option value="24">Last 24 hours</option><option value="168">Last 7 days</option><option value="720">Last month</option><option value="custom">Custom dates…</option>
     </select>
     <span id="custom" hidden><input id="from" type="datetime-local" aria-label="From"> to <input id="to" type="datetime-local" aria-label="To"> <button id="apply">Show</button></span>
+    <span id="busy" class="note" hidden>Loading…</span>
     <button id="out">Sign out</button>
   </header>
   <main>
@@ -149,23 +150,23 @@ $("loginForm").addEventListener("submit", async (e) => {
 $("out").addEventListener("click", () => signOut(auth));
 
 // ---------- state ----------
-let devices = {}, settings = {}, data = {}, sel = null, chart = null, showTable = false, stops = [], timers = [], loadSeq = 0;
+let devices = {}, settings = {}, data = {}, cache = {}, queues = {}, busy = false, sel = null, chart = null, showTable = false, stops = [], timers = [], loadSeq = 0;
 
 onAuthStateChanged(auth, (user) => {
   $("login").hidden = !!user; $("app").hidden = !user;
-  stops.forEach((f) => f()); stops = []; timers.forEach(clearInterval); timers = [];
+  stops.forEach((f) => f()); stops = []; timers.forEach(clearInterval); timers = []; cache = {}; queues = {}; data = {};
   if (!user) return;
   let first = true;
-  stops.push(onValue(ref(db, "devices"), (snap) => { devices = snap.val() || {}; if (first) { first = false; loadAll(); } else render(); }));
+  stops.push(onValue(ref(db, "devices"), (snap) => { devices = snap.val() || {}; if (first) { first = false; loadAll(true); } render(); }));
   stops.push(onValue(ref(db, "settings"), (snap) => { settings = snap.val() || {}; render(); }));
   timers.push(setInterval(render, 30000), setInterval(loadAll, 300000), setInterval(() => { if ($("range").value === "1") loadAll(); }, 60000));   // live view reloads every minute
 });
 $("range").addEventListener("change", () => {
   const custom = $("range").value === "custom"; $("custom").hidden = !custom;
   if (custom && !$("from").value) { const p = (d) => new Date(d - d.getTimezoneOffset() * 60000).toISOString().slice(0, 16); $("to").value = p(new Date()); $("from").value = p(new Date(Date.now() - 86400000)); }
-  loadAll();
+  loadAll(true);
 });
-$("apply").addEventListener("click", loadAll);
+$("apply").addEventListener("click", () => loadAll(true));
 
 // ---------- helpers ----------
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -178,7 +179,7 @@ function span() {                                            // [since, until] i
     const a = Date.parse($("from").value), b = Date.parse($("to").value);
     if (a && b && b > a) return [Math.floor(a / 1000), Math.floor(b / 1000)];
   }
-  const h = Number($("range").value) || 1, now = Math.floor(Date.now() / 1000);
+  const h = Number($("range").value) || 4, now = Math.floor(Date.now() / 1000);
   return [now - h * 3600, now];
 }
 // Periods of 4 hours or less show durations in minutes instead of hours.
@@ -186,16 +187,33 @@ function durFmt() { const [a, b] = span(), m = b - a <= 4 * 3600; return { u: m 
 function periodName() { const o = $("range").selectedOptions[0]; return $("range").value === "custom" ? "selected dates" : o.textContent.toLowerCase(); }
 
 // ---------- data ----------
-async function loadAll() {
+// Readings already downloaded are kept per unit (cache[id] covers lo..hi), so a period change or a refresh only fetches what is missing.
+async function fetchRange(id, a, b) {
+  const snap = await get(query(ref(db, "readings/" + id), orderByKey(), startAt(String(a)), endAt(String(b))));
+  const rows = []; snap.forEach((c) => { rows.push(c.val()); }); return rows;
+}
+async function extend(id, a, b) {
+  const c = cache[id];
+  if (!c || b < c.lo - 1 || a > c.hi + 1) { cache[id] = { rows: await fetchRange(id, a, b), lo: a, hi: b }; return; }
+  if (a < c.lo) { const r = await fetchRange(id, a, c.lo - 1); c.rows = r.concat(c.rows); c.lo = a; }
+  if (b > c.hi) { const o = Math.max(c.lo, c.hi - 3600), r = await fetchRange(id, o, b);          // re-read the last hour: late (backlog) uploads land there
+    c.rows = c.rows.filter((x) => x.ts < o).concat(r); c.hi = b; }
+}
+function ensure(id, a, b) {                                   // one fetch at a time per unit
+  return (queues[id] = (queues[id] || Promise.resolve()).then(() => extend(id, a, b)).catch((err) => console.log("[fixive] load failed", id, err)));
+}
+function setBusy(on) { busy = on; $("busy").hidden = !on; }
+async function loadAll(show) {
   const seq = ++loadSeq, [since, until] = span(), from = since - (until - since), ids = Object.keys(devices);
-  await Promise.all(ids.map(async (id) => {
-    try {
-      const snap = await get(query(ref(db, "readings/" + id), orderByKey(), startAt(String(from)), endAt(String(until))));
-      const rows = []; snap.forEach((c) => { rows.push(c.val()); });
-      if (seq === loadSeq) data[id] = { cur: rows.filter((r) => r.ts >= since), prev: rows.filter((r) => r.ts < since), since, until };
-    } catch (err) { console.log("[fixive] load failed", id, err); }
-  }));
-  if (seq === loadSeq) render();
+  if (show === true) setBusy(true);
+  const put = (id) => { const c = cache[id]; if (!c) return;
+    data[id] = { cur: c.rows.filter((r) => r.ts >= since && r.ts <= until), prev: c.lo <= from ? c.rows.filter((r) => r.ts >= from && r.ts < since) : [], since, until }; };
+  await Promise.all(ids.map((id) => ensure(id, since, until)));          // 1. the period itself: show it as soon as it arrives
+  if (seq !== loadSeq) return;
+  ids.forEach(put); render();
+  await Promise.all(ids.map((id) => ensure(id, from, until)));           // 2. the period before it, for the "vs previous" figures
+  if (seq !== loadSeq) return;
+  ids.forEach(put); setBusy(false); render();
 }
 
 // Each reading stands for the time until the next one (capped at 3 min, so gaps count as "no data").
@@ -227,7 +245,7 @@ function unitStats(id) {
 }
 // change vs the previous period of equal length; lowerBetter: true / false / null (no judgement)
 function delta(c, p, digits, unit, lowerBetter) {
-  if (c == null || p == null) return `<span class="delta">no earlier data</span>`;
+  if (c == null || p == null) return `<span class="delta">${busy ? "loading…" : "no earlier data"}</span>`;
   const diff = c - p, flat = Math.abs(diff) < Math.pow(10, -digits) / 2;
   const cls = flat || lowerBetter === null ? "" : (lowerBetter ? diff < 0 : diff > 0) ? " good" : " bad";
   return `<span class="delta${cls}">${flat ? "no change" : (diff > 0 ? "▲ " : "▼ ") + Math.abs(diff).toFixed(digits) + unit} vs previous</span>`;
