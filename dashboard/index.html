@@ -62,6 +62,31 @@
   .hist table { width:100%; border-collapse:collapse; font-size:12px; font-variant-numeric:tabular-nums; }
   .hist th, .hist td { padding:5px 8px; text-align:right; border-bottom:1px solid var(--line); white-space:nowrap; }
   .hist th { position:sticky; top:0; background:var(--soft); color:var(--muted); font-weight:600; } .hist th:first-child, .hist td:first-child { text-align:left; }
+  h2.sec { margin:0 0 14px; font:700 20px Sora,sans-serif; }
+  main { display:flex; flex-direction:column; gap:28px; }
+  .tiles { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:16px; }
+  .tile { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:20px; display:flex; flex-direction:column; gap:8px; }
+  .tl { display:flex; justify-content:space-between; align-items:baseline; gap:8px; flex-wrap:wrap; }
+  .lab { font-size:12px; font-weight:600; color:var(--muted); letter-spacing:0.04em; text-transform:uppercase; }
+  .big { font:700 40px/1.1 Sora,sans-serif; font-variant-numeric:tabular-nums; } .big span { font-size:18px; color:var(--muted); font-weight:600; }
+  .note { font-size:12px; color:var(--muted); } .pills { display:flex; gap:8px; flex-wrap:wrap; } .pills .badge { margin-left:0; }
+  .delta { font-size:12px; font-weight:700; color:var(--muted); } .delta.good { color:var(--ok); } .delta.bad { color:#fca5a5; }
+  #detail { display:flex; flex-direction:column; gap:18px; padding:20px; }
+  .dhead { display:flex; align-items:center; flex-wrap:wrap; gap:10px; } .dhead h2 { margin:0; font:700 20px Sora,sans-serif; }
+  .dhead .id { font-size:13px; color:var(--muted); } .dhead .badge { margin-left:0; } .dhead .right { margin-left:auto; font-size:12px; color:var(--muted); }
+  .minis { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; }
+  .mini { background:var(--soft); border-radius:8px; padding:12px; display:flex; flex-direction:column; gap:4px; }
+  .mini > span:first-child { font-size:11px; color:var(--muted); } .mini b { font:700 22px Sora,sans-serif; font-variant-numeric:tabular-nums; } .mini.hot b { color:#fca5a5; }
+  .barwrap { display:flex; flex-direction:column; gap:8px; }
+  .bar { display:flex; height:22px; border-radius:8px; overflow:hidden; background:var(--soft); }
+  .legend { display:flex; gap:16px; flex-wrap:wrap; font-size:12px; color:var(--muted); } .legend i { display:inline-block; width:10px; height:10px; border-radius:2px; margin-right:6px; }
+  #detail .chart { height:260px; }
+  .lim { display:inline-flex; align-items:center; gap:6px; } .lim input { width:72px; border:1px solid var(--line); border-radius:8px; padding:5px 7px; background:var(--soft); color-scheme:dark; }
+  .ucard { text-align:left; width:100%; display:flex; flex-direction:column; gap:12px; padding:16px; background:var(--panel); font-weight:400; }
+  .ucard.alarm { border-color:var(--red); }
+  .uh { display:flex; align-items:center; gap:8px; } .uh b { font:700 15px Sora,sans-serif; } .uh .id { font-size:12px; color:var(--muted); }
+  .uv { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; font-size:11px; color:var(--muted); } .uv b { display:block; font:700 20px Sora,sans-serif; color:var(--ink); }
+  .foot { margin:0; font-size:12px; color:var(--muted); }
   [hidden] { display:none !important; }
 </style>
 </head>
@@ -81,14 +106,19 @@
   <header>
     <a class="brand" href="/" aria-label="Fixive home"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span><span><strong>Fixive</strong><small>Pilot dashboard</small></span></a>
     <span class="tag">TEST</span>
-    <select id="range" aria-label="Chart range">
-      <option value="6">Last 6 hours</option><option value="24" selected>Last 24 hours</option><option value="168">Last 7 days</option>
-      <option value="720">Last 30 days</option><option value="custom">Custom dates…</option>
+    <select id="range" aria-label="Period">
+      <option value="24">Last 24 hours</option><option value="168" selected>Last 7 days</option><option value="720">Last 30 days</option><option value="custom">Custom dates…</option>
     </select>
     <span id="custom" hidden><input id="from" type="datetime-local" aria-label="From"> to <input id="to" type="datetime-local" aria-label="To"> <button id="apply">Show</button></span>
     <button id="out">Sign out</button>
   </header>
-  <main><div id="grid" class="grid"></div><div id="none" class="empty" hidden>No units have reported yet.</div></main>
+  <main>
+    <div id="none" class="empty" hidden>No units have reported yet.</div>
+    <section id="fleetSec" hidden><h2 class="sec">All units, <span id="periodName"></span></h2><div id="fleet" class="tiles"></div></section>
+    <section id="detail" class="card" hidden></section>
+    <section id="othersSec" hidden><h2 class="sec">Other units</h2><div id="others" class="grid"></div></section>
+    <p class="foot" id="foot"></p>
+  </main>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
@@ -96,7 +126,7 @@
 import { firebaseConfig, LOGIN_EMAIL, CABINET_ALARM_C, OFFLINE_AFTER_S } from "./config.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getDatabase, ref, onValue, get, query, orderByKey, startAt, endAt } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+import { getDatabase, ref, onValue, get, set, query, orderByKey, startAt, endAt } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 const $ = (id) => document.getElementById(id);
 if (firebaseConfig.apiKey.startsWith("PASTE")) {
@@ -115,118 +145,203 @@ $("loginForm").addEventListener("submit", async (e) => {
 });
 $("out").addEventListener("click", () => signOut(auth));
 
-let devices = {}, charts = {}, stopDevices = null, timer = null;
+// ---------- state ----------
+let devices = {}, settings = {}, data = {}, sel = null, chart = null, showTable = false, stops = [], timers = [], loadSeq = 0;
+
 onAuthStateChanged(auth, (user) => {
   $("login").hidden = !!user; $("app").hidden = !user;
-  if (stopDevices) { stopDevices(); stopDevices = null; } clearInterval(timer);
+  stops.forEach((f) => f()); stops = []; timers.forEach(clearInterval); timers = [];
   if (!user) return;
-  stopDevices = onValue(ref(db, "devices"), (snap) => { devices = snap.val() || {}; renderCards(); });
-  timer = setInterval(() => { renderCards(); loadCharts(); }, 60000);
+  let first = true;
+  stops.push(onValue(ref(db, "devices"), (snap) => { devices = snap.val() || {}; if (first) { first = false; loadAll(); } else render(); }));
+  stops.push(onValue(ref(db, "settings"), (snap) => { settings = snap.val() || {}; render(); }));
+  timers.push(setInterval(render, 30000), setInterval(loadAll, 300000));
 });
 $("range").addEventListener("change", () => {
   const custom = $("range").value === "custom"; $("custom").hidden = !custom;
   if (custom && !$("from").value) { const p = (d) => new Date(d - d.getTimezoneOffset() * 60000).toISOString().slice(0, 16); $("to").value = p(new Date()); $("from").value = p(new Date(Date.now() - 86400000)); }
-  loadCharts();
+  loadAll();
 });
-$("apply").addEventListener("click", loadCharts);
+$("apply").addEventListener("click", loadAll);
 
-const hist = {};                                             // full rows per device for the table and CSV
+// ---------- helpers ----------
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const fmt = (v, d) => (v === null || v === undefined || Number.isNaN(v) ? "–" : Number(v).toFixed(d));
+const ago = (s) => s < 90 ? `${Math.max(0, Math.round(s))} s ago` : s < 5400 ? `${Math.round(s / 60)} min ago` : s < 172800 ? `${Math.round(s / 3600)} h ago` : `${Math.round(s / 86400)} d ago`;
+const stamp = (ts) => new Date(ts * 1000).toLocaleString([], { year: "numeric", month: "short", day: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit" });
+const limitOf = (id) => (typeof settings[id]?.limit === "number" ? settings[id].limit : CABINET_ALARM_C);
 function span() {                                            // [since, until] in epoch seconds
   if ($("range").value === "custom") {
     const a = Date.parse($("from").value), b = Date.parse($("to").value);
     if (a && b && b > a) return [Math.floor(a / 1000), Math.floor(b / 1000)];
   }
-  const h = Number($("range").value) || 24, now = Math.floor(Date.now() / 1000);
-  return [now - h * 3600, now + 600];
+  const h = Number($("range").value) || 168, now = Math.floor(Date.now() / 1000);
+  return [now - h * 3600, now];
 }
-const stamp = (ts) => new Date(ts * 1000).toLocaleString([], { year: "numeric", month: "short", day: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit" });
+function periodName() { const o = $("range").selectedOptions[0]; return $("range").value === "custom" ? "selected dates" : o.textContent.toLowerCase(); }
+
+// ---------- data ----------
+async function loadAll() {
+  const seq = ++loadSeq, [since, until] = span(), from = since - (until - since), ids = Object.keys(devices);
+  await Promise.all(ids.map(async (id) => {
+    try {
+      const snap = await get(query(ref(db, "readings/" + id), orderByKey(), startAt(String(from)), endAt(String(until))));
+      const rows = []; snap.forEach((c) => { rows.push(c.val()); });
+      if (seq === loadSeq) data[id] = { cur: rows.filter((r) => r.ts >= since), prev: rows.filter((r) => r.ts < since), since, until };
+    } catch (err) { console.log("[fixive] load failed", id, err); }
+  }));
+  if (seq === loadSeq) render();
+}
+
+// Each reading stands for the time until the next one (capped at 3 min, so gaps count as "no data").
+function stats(rows, limit, t0, t1) {
+  const s = { n: rows.length, covered: 0, cabT: 0, hotT: 0, onKnown: 0, runT: 0, starts: 0, peakDis: null, window: 0 };
+  if (!rows.length) return s;
+  let prevOn = null;
+  for (let i = 0; i < rows.length; i++) {
+    const r = rows[i], dt = i < rows.length - 1 ? Math.min(Math.max(rows[i + 1].ts - r.ts, 0), 180) : 60;
+    s.covered += dt;
+    if (r.cab != null) { s.cabT += dt; if (r.cab > limit) s.hotT += dt; }
+    if (r.on != null) { s.onKnown += dt; if (r.on) s.runT += dt; if (prevOn === false && r.on === true) s.starts++; prevOn = r.on; }
+    if (r.dis != null && r.on !== false && (s.peakDis === null || r.dis > s.peakDis)) s.peakDis = r.dis;
+  }
+  s.window = Math.max(Math.min(t1, Date.now() / 1000) - Math.max(t0, rows[0].ts), s.covered);   // from the unit's first reading in the period
+  return s;
+}
+const pct = (a, b) => (b > 0 ? (100 * a) / b : null);
+function derived(s) {
+  return { safe: pct(s.cabT - s.hotT, s.cabT), hotH: s.cabT > 0 ? s.hotT / 3600 : null, uptime: s.window > 0 ? Math.min(100, pct(s.covered, s.window)) : null,
+           duty: pct(s.runT, s.onKnown), peak: s.peakDis, starts: s.onKnown > 3600 ? s.starts / (s.onKnown / 86400) : null,
+           runH: s.runT / 3600, idleH: (s.onKnown - s.runT) / 3600, gapH: Math.max(0, s.window - s.covered) / 3600 };
+}
+function unitStats(id) {
+  const d = data[id]; if (!d) return null;
+  const len = d.until - d.since, lim = limitOf(id);
+  const cur = stats(d.cur, lim, d.since, d.until), prev = stats(d.prev, lim, d.since - len, d.since);
+  return { cur, prev, c: derived(cur), p: prev.n ? derived(prev) : null };
+}
+// change vs the previous period of equal length; lowerBetter: true / false / null (no judgement)
+function delta(c, p, digits, unit, lowerBetter) {
+  if (c == null || p == null) return `<span class="delta">no earlier data</span>`;
+  const diff = c - p, flat = Math.abs(diff) < Math.pow(10, -digits) / 2;
+  const cls = flat || lowerBetter === null ? "" : (lowerBetter ? diff < 0 : diff > 0) ? " good" : " bad";
+  return `<span class="delta${cls}">${flat ? "no change" : (diff > 0 ? "▲ " : "▼ ") + Math.abs(diff).toFixed(digits) + unit} vs previous</span>`;
+}
+function status(id) {
+  const d = devices[id], L = d.latest || {}, age = Date.now() / 1000 - (d.last_seen || 0);
+  const offline = age > OFFLINE_AFTER_S, hot = !offline && L.cab != null && L.cab > limitOf(id);
+  return { offline, hot, age, label: offline ? "Offline " + (d.last_seen ? ago(age).replace(" ago", "") : "") : hot ? "Too warm" : "Online", cls: offline ? " off" : hot ? " alarm" : "" };
+}
+
+// ---------- rendering ----------
+function render() {
+  const ids = Object.keys(devices).sort();
+  $("none").hidden = ids.length > 0; $("fleetSec").hidden = $("detail").hidden = ids.length === 0;
+  if (!ids.length) return;
+  if (!sel || !devices[sel]) sel = ids[0];
+  $("periodName").textContent = periodName();
+  renderFleet(ids); renderDetail(sel); renderOthers(ids.filter((i) => i !== sel));
+  $("foot").textContent = "Figures cover each unit from its first reading in the period. Changes compare with the previous period of the same length.";
+}
+
+function tile(label, value, unit, deltaHtml, note) {
+  return `<div class="tile"><div class="tl"><span class="lab">${label}</span>${deltaHtml}</div><div class="big">${value}<span> ${unit}</span></div><div class="note">${note}</div></div>`;
+}
+function renderFleet(ids) {
+  const sum = (k, which) => ids.reduce((a, id) => { const u = unitStats(id); return a + (u ? u[which][k] : 0); }, 0);
+  const f = (which) => { const cabT = sum("cabT", which), hotT = sum("hotT", which), cov = sum("covered", which), win = sum("window", which);
+    return { safe: pct(cabT - hotT, cabT), hotH: cabT > 0 ? hotT / 3600 : null, uptime: win > 0 ? Math.min(100, pct(cov, win)) : null }; };
+  const c = f("cur"), p = sum("covered", "prev") > 0 ? f("prev") : { safe: null, hotH: null, uptime: null };
+  const st = ids.map(status), on = st.filter((s) => !s.offline).length, hot = st.filter((s) => s.hot).length, off = st.length - on;
+  $("fleet").innerHTML =
+    tile("Time in safe range", fmt(c.safe, 1), "%", delta(c.safe, p.safe, 1, "", false), "Share of time cabinets stayed at or under their limit") +
+    tile("Hours above limit", fmt(c.hotH, 1), "h", delta(c.hotH, p.hotH, 1, " h", true), "Across all units; lower is better") +
+    tile("Monitoring uptime", fmt(c.uptime, 1), "%", delta(c.uptime, p.uptime, 1, "", false), "Share of time with data received") +
+    `<div class="tile"><div class="tl"><span class="lab">Units right now</span></div><div class="big">${on}<span> of ${st.length} online</span></div>
+     <div class="pills">${hot ? `<span class="badge alarm">${hot} too warm</span>` : ""}${off ? `<span class="badge off">${off} offline</span>` : ""}${!hot && !off ? `<span class="badge">All within limits</span>` : ""}</div></div>`;
+}
+
+function mini(label, value, deltaHtml, hot) { return `<div class="mini${hot ? " hot" : ""}"><span>${label}</span><b>${value}</b>${deltaHtml}</div>`; }
+function renderDetail(id) {
+  const d = devices[id], L = d.latest || {}, s = status(id), u = unitStats(id), lim = limitOf(id), box = $("detail");
+  const c = u ? u.c : {}, p = u && u.p ? u.p : {};
+  const tot = u ? c.runH + c.idleH + c.gapH : 0, w = (h) => (tot > 0 ? (100 * h) / tot : 0);
+  box.classList.toggle("alarm", s.hot);
+  box.innerHTML = `
+    <div class="dhead"><h2>${esc(d.name || id)}</h2><span class="id">${esc(id)}</span><span class="badge${s.cls}">${esc(s.label)}</span>
+      <span class="right">Last data ${d.last_seen ? ago(s.age) : "never"} · Wi-Fi ${L.rssi ?? "–"} dBm · fw ${esc(d.fw || "–")}${d.backlog ? " · backlog " + d.backlog : ""}</span></div>
+    <div class="minis">
+      ${mini("Cabinet now", fmt(L.cab, 1) + " °C", `<span class="delta">limit ${fmt(lim, 1)} °C</span>`, s.hot)}
+      ${mini("Time in safe range", fmt(c.safe, 1) + " %", delta(c.safe, p.safe, 1, "", false))}
+      ${mini("Hours above limit", fmt(c.hotH, 1) + " h", delta(c.hotH, p.hotH, 1, " h", true))}
+      ${mini("Compressor duty cycle", fmt(c.duty, 0) + " %", delta(c.duty, p.duty, 0, "", null))}
+      ${mini("Peak discharge temp", fmt(c.peak, 1) + " °C", delta(c.peak, p.peak, 1, " °C", null))}
+      ${mini("Compressor starts / day", fmt(c.starts, 0), delta(c.starts, p.starts, 0, "", null))}
+    </div>
+    <div class="barwrap"><div class="tl"><span class="lab">Compressor time, ${esc(periodName())}</span><span class="note">Running ${fmt(c.runH, 1)} h · Idle ${fmt(c.idleH, 1)} h · No data ${fmt(c.gapH, 1)} h</span></div>
+      <div class="bar" role="img" aria-label="Running ${fmt(w(c.runH), 0)} percent, idle ${fmt(w(c.idleH), 0)} percent, no data ${fmt(w(c.gapH), 0)} percent">
+        <div style="width:${w(c.runH)}%;background:#a78bfa"></div><div style="width:${w(c.idleH)}%;background:#3a4352"></div><div style="width:${w(c.gapH)}%;background:#ef4444"></div></div>
+      <div class="legend"><span><i style="background:#a78bfa"></i>Running</span><span><i style="background:#3a4352"></i>Idle</span><span><i style="background:#ef4444"></i>No data</span></div></div>
+    <div class="chart"><canvas></canvas></div>
+    <div class="tools"><button id="tbl">${showTable ? "Hide readings" : "Show readings"}</button><button id="csv">Download CSV</button>
+      <label class="lim">Cabinet limit °C <input id="lim" type="number" step="0.5" value="${lim}"></label><button id="limSave">Save limit</button><span id="limMsg" class="note"></span>
+      <span class="count">${u && u.cur.n ? `${u.cur.n} readings · ${stamp(data[id].cur[0].ts)} → ${stamp(data[id].cur[u.cur.n - 1].ts)}` : "No readings in this period"}</span></div>
+    <div class="hist" ${showTable ? "" : "hidden"}></div>`;
+  box.querySelector("#tbl").addEventListener("click", () => { showTable = !showTable; renderDetail(id); });
+  box.querySelector("#csv").addEventListener("click", () => downloadCsv(id));
+  box.querySelector("#limSave").addEventListener("click", async () => {
+    const v = Number(box.querySelector("#lim").value), msg = box.querySelector("#limMsg");
+    if (!Number.isFinite(v) || v < -40 || v > 40) { msg.textContent = "Enter a limit between -40 and 40."; return; }
+    try { await set(ref(db, "settings/" + id + "/limit"), v); } catch (err) { msg.textContent = "Could not save the limit."; console.log("[fixive] limit save failed", err); }
+  });
+  drawChart(id, lim); if (showTable) renderTable(id);
+}
+
+function drawChart(id, lim) {
+  const d = data[id], canvas = $("detail").querySelector("canvas"); if (chart) { chart.destroy(); chart = null; }
+  if (!d || !canvas) return;
+  const step = Math.ceil(d.cur.length / 800) || 1, rows = d.cur.filter((_, i) => i % step === 0), hours = (d.until - d.since) / 3600;
+  const pts = (k) => rows.map((r) => ({ x: r.ts * 1000, y: r[k] ?? null }));
+  const tick = (v) => { const t = new Date(v); return hours > 30 ? t.toLocaleDateString([], { day: "numeric", month: "short" }) : t.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }); };
+  const xmin = d.since * 1000, xmax = Math.min(d.until, Date.now() / 1000) * 1000;
+  const line = (o) => ({ borderWidth: 1.6, pointRadius: 0, tension: 0.2, spanGaps: false, ...o });
+  chart = new Chart(canvas, { type: "line", data: { datasets: [
+      line({ label: "Cabinet °C", data: pts("cab"), borderColor: "#38bdf8", yAxisID: "y" }),
+      line({ label: "Discharge °C", data: pts("dis"), borderColor: "#f97316", yAxisID: "y" }),
+      line({ label: "Current A", data: pts("ia"), borderColor: "#a78bfa", yAxisID: "y2" }),
+      line({ label: "Cabinet limit", data: [{ x: xmin, y: lim }, { x: xmax, y: lim }], borderColor: "#ef4444", borderDash: [6, 5], borderWidth: 1.4, yAxisID: "y" }),
+    ] }, options: { responsive: true, maintainAspectRatio: false, animation: false, parsing: false, interaction: { mode: "nearest", intersect: false },
+      scales: { x: { type: "linear", min: xmin, max: xmax, ticks: { callback: tick, maxTicksLimit: 8 }, grid: { display: false } },
+                y: { position: "left", title: { display: true, text: "°C" } },
+                y2: { position: "right", title: { display: true, text: "A" }, grid: { drawOnChartArea: false }, beginAtZero: true } },
+      plugins: { legend: { labels: { boxWidth: 10, font: { size: 11 } } }, tooltip: { callbacks: { title: (items) => new Date(items[0].parsed.x).toLocaleString() } } } } });
+}
+
+function renderOthers(ids) {
+  $("othersSec").hidden = ids.length === 0;
+  $("others").innerHTML = ids.map((id) => {
+    const d = devices[id], L = d.latest || {}, s = status(id), u = unitStats(id), c = u ? u.c : {};
+    return `<button class="ucard${s.hot ? " alarm" : ""}" data-id="${esc(id)}" aria-label="Open ${esc(d.name || id)}">
+      <span class="uh"><b>${esc(d.name || id)}</b><span class="id">${esc(id)}</span><span class="badge${s.cls}">${esc(s.label)}</span></span>
+      <span class="uv"><span><b>${s.offline ? "–" : fmt(L.cab, 1)}</b>Cabinet °C</span><span><b>${fmt(c.safe, 1)}${c.safe == null ? "" : " %"}</b>In safe range</span><span><b>${fmt(c.duty, 0)}${c.duty == null ? "" : " %"}</b>Duty cycle</span></span></button>`;
+  }).join("");
+  $("others").querySelectorAll(".ucard").forEach((b) => b.addEventListener("click", () => { sel = b.dataset.id; showTable = false; render(); window.scrollTo({ top: 0, behavior: "smooth" }); }));
+}
+
 function renderTable(id) {
-  const box = document.querySelector("#card-" + id + " .hist"); if (!box || box.hidden) return;
-  const rows = (hist[id] || []).slice(-500).reverse();
+  const box = $("detail").querySelector(".hist"), rows = ((data[id] || {}).cur || []).slice(-500).reverse();
   box.innerHTML = "<table><thead><tr><th>Time (local)</th><th>Cabinet °C</th><th>Discharge °C</th><th>Avg A</th><th>Max A</th><th>Comp.</th></tr></thead><tbody>" +
     rows.map((r) => `<tr><td>${stamp(r.ts)}</td><td>${fmt(r.cab, 2)}</td><td>${fmt(r.dis, 1)}</td><td>${fmt(r.ia, 2)}</td><td>${fmt(r.ix, 2)}</td><td>${r.on == null ? "–" : r.on ? "ON" : "off"}</td></tr>`).join("") + "</tbody></table>";
 }
 function downloadCsv(id) {
-  const rows = hist[id] || [], v = (x) => (x === null || x === undefined ? "" : x);
+  const d = data[id]; if (!d) return;
+  const v = (x) => (x === null || x === undefined ? "" : x);
   const lines = ["device_id,timestamp_utc,epoch_s,cabinet_c,discharge_c,current_avg_a,current_max_a,compressor_on,rssi_dbm"]
-    .concat(rows.map((r) => [id, new Date(r.ts * 1000).toISOString(), r.ts, v(r.cab), v(r.dis), v(r.ia), v(r.ix), v(r.on), v(r.rssi)].join(",")));
-  const a = document.createElement("a");
+    .concat(d.cur.map((r) => [id, new Date(r.ts * 1000).toISOString(), r.ts, v(r.cab), v(r.dis), v(r.ia), v(r.ix), v(r.on), v(r.rssi)].join(",")));
+  const a = document.createElement("a"), day = (t) => new Date(t * 1000).toISOString().slice(0, 10);
   a.href = URL.createObjectURL(new Blob([lines.join("\n")], { type: "text/csv" }));
-  a.download = `${id}_${new Date(span()[0] * 1000).toISOString().slice(0, 10)}_to_${new Date(Math.min(span()[1], Date.now() / 1000) * 1000).toISOString().slice(0, 10)}.csv`;
+  a.download = `${id}_${day(d.since)}_to_${day(Math.min(d.until, Date.now() / 1000))}.csv`;
   a.click(); URL.revokeObjectURL(a.href);
-}
-
-const fmt = (v, d) => (v === null || v === undefined ? "–" : Number(v).toFixed(d));
-const ago = (s) => s < 90 ? `${Math.max(0, Math.round(s))} s ago` : s < 5400 ? `${Math.round(s / 60)} min ago` : s < 172800 ? `${Math.round(s / 3600)} h ago` : `${Math.round(s / 86400)} d ago`;
-
-function renderCards() {
-  const ids = Object.keys(devices).sort();
-  $("none").hidden = ids.length > 0;
-  const now = Date.now() / 1000;
-  for (const id of ids) {
-    const d = devices[id], L = d.latest || {};
-    let card = document.getElementById("card-" + id), isNew = false;
-    if (!card) {
-      card = document.createElement("div"); card.className = "card"; card.id = "card-" + id; isNew = true;
-      card.innerHTML = `<h3><span class="name"></span> <span class="id"></span><span class="badge"></span></h3>
-        <div class="vals">
-          <div class="val cab"><b></b><span>Cabinet °C</span></div><div class="val dis"><b></b><span>Discharge °C</span></div>
-          <div class="val cur"><b></b><span>Current A</span></div><div class="val comp"><b></b><span>Compressor</span></div>
-        </div><div class="meta"></div><div class="chart"><canvas></canvas></div>
-        <div class="tools"><button class="tbl">Show readings</button><button class="csv">Download CSV</button><span class="count"></span></div>
-        <div class="hist" hidden></div>`;
-      $("grid").appendChild(card);
-      card.querySelector(".csv").addEventListener("click", () => downloadCsv(id));
-      card.querySelector(".tbl").addEventListener("click", (e) => { const b = card.querySelector(".hist"); b.hidden = !b.hidden; e.target.textContent = b.hidden ? "Show readings" : "Hide readings"; renderTable(id); });
-    }
-    const age = now - (d.last_seen || 0), offline = age > OFFLINE_AFTER_S;
-    const hot = !offline && L.cab != null && L.cab > CABINET_ALARM_C;
-    card.classList.toggle("alarm", hot);
-    card.querySelector(".name").textContent = d.name || id;
-    card.querySelector(".id").textContent = id;
-    const b = card.querySelector(".badge");
-    b.textContent = offline ? "Offline" : hot ? "Too warm" : "Online"; b.className = "badge" + (offline ? " off" : hot ? " alarm" : "");
-    card.querySelector(".cab b").textContent = fmt(L.cab, 1); card.querySelector(".cab").classList.toggle("hot", hot);
-    card.querySelector(".dis b").textContent = fmt(L.dis, 1);
-    card.querySelector(".cur b").textContent = fmt(L.ia, 2);
-    card.querySelector(".comp b").textContent = L.on == null ? "–" : L.on ? "ON" : "off";
-    card.querySelector(".meta").textContent = `Last data ${d.last_seen ? ago(age) : "never"} · Wi-Fi ${L.rssi ?? "–"} dBm · fw ${d.fw || "–"}` + (d.backlog ? ` · backlog ${d.backlog}` : "");
-    if (isNew) loadChart(id);
-  }
-}
-
-function loadCharts() { for (const id of Object.keys(devices)) loadChart(id); }
-
-async function loadChart(id) {
-  const card = document.getElementById("card-" + id); if (!card) return;
-  const [since, until] = span(), hours = (until - since) / 3600;
-  let rows = [];
-  try {
-    const snap = await get(query(ref(db, "readings/" + id), orderByKey(), startAt(String(since)), endAt(String(until))));
-    snap.forEach((c) => { rows.push(c.val()); });
-  } catch (err) { console.log("[fixive] chart load failed", id, err); return; }
-  hist[id] = rows;
-  card.querySelector(".count").textContent = rows.length ? `${rows.length} readings · ${stamp(rows[0].ts)} → ${stamp(rows[rows.length - 1].ts)}` : "No readings in this period";
-  renderTable(id);
-  const step = Math.ceil(rows.length / 600) || 1;                       // thin out long ranges
-  rows = rows.filter((_, i) => i % step === 0);
-  const pts = (k) => rows.map((r) => ({ x: r.ts * 1000, y: r[k] ?? null }));
-  const tick = (v) => { const t = new Date(v); return hours > 30 ? t.toLocaleDateString([], { day: "numeric", month: "short" }) : t.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }); };
-  const data = { datasets: [
-    { label: "Cabinet °C", data: pts("cab"), borderColor: "#38bdf8", yAxisID: "y" },
-    { label: "Discharge °C", data: pts("dis"), borderColor: "#f97316", yAxisID: "y" },
-    { label: "Current A", data: pts("ia"), borderColor: "#a78bfa", yAxisID: "y2" },
-  ].map((s) => ({ ...s, borderWidth: 1.6, pointRadius: 0, tension: 0.2, spanGaps: false })) };
-  if (charts[id]) { charts[id].data = data; charts[id].options.scales.x.min = since * 1000; charts[id].options.scales.x.max = Math.min(until, Date.now() / 1000) * 1000; charts[id].options.scales.x.ticks.callback = tick; charts[id].update("none"); return; }
-  charts[id] = new Chart(card.querySelector("canvas"), { type: "line", data, options: {
-    responsive: true, maintainAspectRatio: false, animation: false, parsing: false, interaction: { mode: "nearest", intersect: false },
-    scales: {
-      x: { type: "linear", min: since * 1000, max: Math.min(until, Date.now() / 1000) * 1000, ticks: { callback: tick, maxTicksLimit: 6 }, grid: { display: false } },
-      y: { position: "left", title: { display: true, text: "°C" } },
-      y2: { position: "right", title: { display: true, text: "A" }, grid: { drawOnChartArea: false }, beginAtZero: true },
-    },
-    plugins: { legend: { labels: { boxWidth: 10, font: { size: 11 } } }, tooltip: { callbacks: { title: (items) => new Date(items[0].parsed.x).toLocaleString() } } },
-  } });
 }
 </script>
 </body>
