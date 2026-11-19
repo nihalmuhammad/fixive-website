@@ -4,50 +4,71 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Fixive pilot dashboard (test)</title>
+<title>Fixive | Pilot dashboard</title>
+<meta name="theme-color" content="#07090d">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root { --bg:#f4f6f5; --card:#fff; --ink:#16211c; --muted:#66756d; --line:#dfe5e1; --brand:#0f7a5a; --warn:#c0392b; --off:#8a949d; }
-  * { box-sizing: border-box; }
-  body { margin:0; font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--ink); }
-  header { display:flex; align-items:center; gap:12px; padding:14px 20px; background:var(--card); border-bottom:1px solid var(--line); }
-  header h1 { font-size:17px; margin:0; flex:1; }
-  header .tag { font-size:11px; padding:2px 8px; border-radius:99px; background:#fff3cd; color:#7a5b00; margin-left:8px; font-weight:600; }
-  button, select, input { font:inherit; }
-  button { cursor:pointer; border:1px solid var(--line); background:var(--card); border-radius:8px; padding:7px 12px; }
-  button.primary { background:var(--brand); color:#fff; border-color:var(--brand); width:100%; padding:10px; }
-  select { border:1px solid var(--line); border-radius:8px; padding:6px 8px; background:var(--card); }
-  main { padding:20px; max-width:1200px; margin:0 auto; }
-  #login { max-width:340px; margin:12vh auto; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:24px; }
-  #login h2 { margin:0 0 4px; font-size:19px; } #login p { margin:0 0 16px; color:var(--muted); font-size:13px; }
-  #login label { display:block; font-size:12px; color:var(--muted); margin:10px 0 4px; }
-  #login input { width:100%; padding:9px 10px; border:1px solid var(--line); border-radius:8px; }
-  #err { color:var(--warn); font-size:13px; min-height:18px; margin:10px 0; }
-  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:16px; }
-  .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px; }
-  .card.alarm { border-color:var(--warn); box-shadow:0 0 0 2px #c0392b22; }
-  .card h3 { margin:0; font-size:16px; display:flex; align-items:center; gap:8px; }
-  .card .id { color:var(--muted); font-weight:400; font-size:12px; }
-  .badge { margin-left:auto; font-size:11px; font-weight:600; padding:2px 9px; border-radius:99px; background:#e3f4ec; color:var(--brand); }
-  .badge.off { background:#eceff1; color:var(--off); } .badge.alarm { background:#fdecea; color:var(--warn); }
-  .vals { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:14px 0 6px; }
-  .val b { display:block; font-size:21px; font-variant-numeric:tabular-nums; } .val span { font-size:11px; color:var(--muted); }
-  .val.hot b { color:var(--warn); }
+  /* Same palette, fonts and shapes as the Fixive site (../style.css) */
+  :root { --ink:#f8fafc; --muted:#a8b0bd; --line:rgba(255,255,255,0.12); --paper:#07090d; --panel:#10141b; --soft:#191f29;
+          --orange:#f97316; --orange-2:#fb923c; --red:#ef4444; --ok:#34d399; --off:#7b8494; --shadow:0 24px 80px rgba(0,0,0,0.45); }
+  * { box-sizing:border-box; }
+  body { margin:0; font:15px/1.45 Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; color:var(--ink);
+         background:linear-gradient(90deg,rgba(255,255,255,0.035) 1px,transparent 1px),linear-gradient(rgba(255,255,255,0.035) 1px,transparent 1px),var(--paper);
+         background-size:44px 44px; min-height:100vh; }
+  body::before { content:""; position:fixed; inset:0; z-index:-1;
+         background:radial-gradient(circle at 78% 8%,rgba(249,115,22,0.22),transparent 32%),linear-gradient(145deg,rgba(249,115,22,0.10),transparent 42%,rgba(0,0,0,0.35)); }
+  a { color:inherit; text-decoration:none; }
+  button, select, input { font:inherit; color:inherit; }
+  header { position:sticky; top:0; z-index:20; display:flex; align-items:center; gap:14px; min-height:76px; padding:14px clamp(18px,4vw,64px);
+           background:rgba(7,9,13,0.86); border-bottom:1px solid rgba(255,255,255,0.10); backdrop-filter:blur(18px); flex-wrap:wrap; }
+  .brand { display:inline-flex; align-items:center; gap:12px; margin-right:auto; }
+  .brand-mark { display:inline-flex; align-items:center; justify-content:center; width:42px; height:42px; color:#0b0d12; background:var(--orange); border-radius:8px; }
+  .brand-mark svg { width:20px; height:20px; }
+  .brand strong { display:block; font-family:Sora,sans-serif; font-size:1.25rem; }
+  .brand small { display:block; color:var(--muted); font-size:0.72rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; }
+  .tag { font-size:11px; padding:3px 9px; border-radius:999px; background:rgba(245,158,11,0.16); color:#fbbf24; font-weight:700; letter-spacing:0.06em; }
+  button { cursor:pointer; border:1px solid var(--line); background:var(--soft); border-radius:8px; padding:8px 14px; font-weight:600; }
+  button:hover { border-color:rgba(255,255,255,0.28); }
+  button.primary { width:100%; padding:11px; color:#111827; background:var(--orange); border-color:var(--orange); font-weight:700; box-shadow:0 12px 28px rgba(249,115,22,0.26); }
+  button.primary:hover { background:var(--orange-2); }
+  select, header input { border:1px solid var(--line); border-radius:8px; padding:7px 9px; background:var(--soft); color-scheme:dark; }
+  :focus-visible { outline:2px solid var(--orange); outline-offset:2px; }
+  main { padding:24px clamp(18px,4vw,64px); max-width:1400px; margin:0 auto; }
+  #login { max-width:360px; margin:12vh auto; background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:28px; box-shadow:var(--shadow); }
+  #login .brand { margin-bottom:18px; }
+  #login h2 { margin:0 0 4px; font:700 20px Sora,sans-serif; } #login p { margin:0 0 16px; color:var(--muted); font-size:13px; }
+  #login label { display:block; font-size:12px; font-weight:600; color:var(--muted); margin:12px 0 5px; }
+  #login input { width:100%; padding:10px 11px; border:1px solid var(--line); border-radius:8px; background:var(--soft); color-scheme:dark; }
+  #err { color:var(--red); font-size:13px; min-height:18px; margin:10px 0; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(360px,1fr)); gap:18px; }
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:18px; }
+  .card.alarm { border-color:var(--red); box-shadow:0 0 0 2px rgba(239,68,68,0.18); }
+  .card h3 { margin:0; font:700 16px Sora,sans-serif; display:flex; align-items:center; gap:8px; }
+  .card .id { color:var(--muted); font:500 12px Inter,sans-serif; }
+  .badge { margin-left:auto; font:700 11px Inter,sans-serif; padding:3px 10px; border-radius:999px; background:rgba(52,211,153,0.14); color:var(--ok); }
+  .badge.off { background:rgba(255,255,255,0.08); color:var(--off); } .badge.alarm { background:rgba(239,68,68,0.16); color:#fca5a5; }
+  .vals { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:16px 0 8px; }
+  .val { background:var(--soft); border-radius:8px; padding:10px 8px; }
+  .val b { display:block; font:700 21px Sora,sans-serif; font-variant-numeric:tabular-nums; } .val span { font-size:11px; color:var(--muted); }
+  .val.hot b { color:#fca5a5; }
   .meta { font-size:12px; color:var(--muted); margin-bottom:10px; }
-  .chart { height:190px; position:relative; }
+  .chart { height:200px; position:relative; }
   .empty { color:var(--muted); text-align:center; padding:60px 0; }
-  .tools { display:flex; gap:8px; align-items:center; margin-top:10px; font-size:12px; color:var(--muted); }
-  .tools button { padding:4px 10px; font-size:12px; } .tools .count { margin-left:auto; }
+  .tools { display:flex; gap:8px; align-items:center; margin-top:12px; font-size:12px; color:var(--muted); flex-wrap:wrap; }
+  .tools button { padding:5px 11px; font-size:12px; } .tools .count { margin-left:auto; }
   .hist { max-height:260px; overflow:auto; margin-top:10px; border:1px solid var(--line); border-radius:8px; }
   .hist table { width:100%; border-collapse:collapse; font-size:12px; font-variant-numeric:tabular-nums; }
-  .hist th, .hist td { padding:4px 8px; text-align:right; border-bottom:1px solid var(--line); white-space:nowrap; }
-  .hist th { position:sticky; top:0; background:#f1f4f2; } .hist th:first-child, .hist td:first-child { text-align:left; }
-  header input { border:1px solid var(--line); border-radius:8px; padding:5px 6px; }
+  .hist th, .hist td { padding:5px 8px; text-align:right; border-bottom:1px solid var(--line); white-space:nowrap; }
+  .hist th { position:sticky; top:0; background:var(--soft); color:var(--muted); font-weight:600; } .hist th:first-child, .hist td:first-child { text-align:left; }
   [hidden] { display:none !important; }
 </style>
 </head>
 <body>
 <section id="login" hidden>
-  <h2>Fixive pilot</h2><p>Test dashboard. Sign in to view the units.</p>
+  <a class="brand" href="/" aria-label="Fixive home"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span><span><strong>Fixive</strong><small>Preventive maintenance</small></span></a>
+  <h2>Pilot dashboard</h2><p>Test access. Sign in to view the monitored units.</p>
   <form id="loginForm">
     <label for="email">Email</label><input id="email" type="email" autocomplete="username" required>
     <label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password" required>
@@ -58,7 +79,8 @@
 
 <div id="app" hidden>
   <header>
-    <h1>Fixive pilot dashboard <span class="tag">TEST</span></h1>
+    <a class="brand" href="/" aria-label="Fixive home"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span><span><strong>Fixive</strong><small>Pilot dashboard</small></span></a>
+    <span class="tag">TEST</span>
     <select id="range" aria-label="Chart range">
       <option value="6">Last 6 hours</option><option value="24" selected>Last 24 hours</option><option value="168">Last 7 days</option>
       <option value="720">Last 30 days</option><option value="custom">Custom dates…</option>
@@ -82,6 +104,7 @@ if (firebaseConfig.apiKey.startsWith("PASTE")) {
   $("login").querySelector("p").textContent = "Dashboard is not configured yet: fill in dashboard/config.js.";
   throw new Error("config.js not filled in");
 }
+Chart.defaults.color = "#a8b0bd"; Chart.defaults.borderColor = "rgba(255,255,255,0.08)"; Chart.defaults.font.family = "Inter, system-ui, sans-serif";
 const app = initializeApp(firebaseConfig), auth = getAuth(app), db = getDatabase(app);
 $("email").value = LOGIN_EMAIL;
 
@@ -190,9 +213,9 @@ async function loadChart(id) {
   const pts = (k) => rows.map((r) => ({ x: r.ts * 1000, y: r[k] ?? null }));
   const tick = (v) => { const t = new Date(v); return hours > 30 ? t.toLocaleDateString([], { day: "numeric", month: "short" }) : t.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }); };
   const data = { datasets: [
-    { label: "Cabinet °C", data: pts("cab"), borderColor: "#0f7a5a", yAxisID: "y" },
-    { label: "Discharge °C", data: pts("dis"), borderColor: "#d98e2b", yAxisID: "y" },
-    { label: "Current A", data: pts("ia"), borderColor: "#3f6fd6", yAxisID: "y2" },
+    { label: "Cabinet °C", data: pts("cab"), borderColor: "#38bdf8", yAxisID: "y" },
+    { label: "Discharge °C", data: pts("dis"), borderColor: "#f97316", yAxisID: "y" },
+    { label: "Current A", data: pts("ia"), borderColor: "#a78bfa", yAxisID: "y2" },
   ].map((s) => ({ ...s, borderWidth: 1.6, pointRadius: 0, tension: 0.2, spanGaps: false })) };
   if (charts[id]) { charts[id].data = data; charts[id].options.scales.x.min = since * 1000; charts[id].options.scales.x.max = Math.min(until, Date.now() / 1000) * 1000; charts[id].options.scales.x.ticks.callback = tick; charts[id].update("none"); return; }
   charts[id] = new Chart(card.querySelector("canvas"), { type: "line", data, options: {
