@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Fixive pilot dashboard (test)</title>
+<style>
+  :root { --bg:#f4f6f5; --card:#fff; --ink:#16211c; --muted:#66756d; --line:#dfe5e1; --brand:#0f7a5a; --warn:#c0392b; --off:#8a949d; }
+  * { box-sizing: border-box; }
+  body { margin:0; font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--ink); }
+  header { display:flex; align-items:center; gap:12px; padding:14px 20px; background:var(--card); border-bottom:1px solid var(--line); }
+  header h1 { font-size:17px; margin:0; flex:1; }
+  header .tag { font-size:11px; padding:2px 8px; border-radius:99px; background:#fff3cd; color:#7a5b00; margin-left:8px; font-weight:600; }
+  button, select, input { font:inherit; }
+  button { cursor:pointer; border:1px solid var(--line); background:var(--card); border-radius:8px; padding:7px 12px; }
+  button.primary { background:var(--brand); color:#fff; border-color:var(--brand); width:100%; padding:10px; }
+  select { border:1px solid var(--line); border-radius:8px; padding:6px 8px; background:var(--card); }
+  main { padding:20px; max-width:1200px; margin:0 auto; }
+  #login { max-width:340px; margin:12vh auto; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:24px; }
+  #login h2 { margin:0 0 4px; font-size:19px; } #login p { margin:0 0 16px; color:var(--muted); font-size:13px; }
+  #login label { display:block; font-size:12px; color:var(--muted); margin:10px 0 4px; }
+  #login input { width:100%; padding:9px 10px; border:1px solid var(--line); border-radius:8px; }
+  #err { color:var(--warn); font-size:13px; min-height:18px; margin:10px 0; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:16px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px; }
+  .card.alarm { border-color:var(--warn); box-shadow:0 0 0 2px #c0392b22; }
+  .card h3 { margin:0; font-size:16px; display:flex; align-items:center; gap:8px; }
+  .card .id { color:var(--muted); font-weight:400; font-size:12px; }
+  .badge { margin-left:auto; font-size:11px; font-weight:600; padding:2px 9px; border-radius:99px; background:#e3f4ec; color:var(--brand); }
+  .badge.off { background:#eceff1; color:var(--off); } .badge.alarm { background:#fdecea; color:var(--warn); }
+  .vals { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:14px 0 6px; }
+  .val b { display:block; font-size:21px; font-variant-numeric:tabular-nums; } .val span { font-size:11px; color:var(--muted); }
+  .val.hot b { color:var(--warn); }
+  .meta { font-size:12px; color:var(--muted); margin-bottom:10px; }
+  .chart { height:190px; position:relative; }
+  .empty { color:var(--muted); text-align:center; padding:60px 0; }
+  .tools { display:flex; gap:8px; align-items:center; margin-top:10px; font-size:12px; color:var(--muted); }
+  .tools button { padding:4px 10px; font-size:12px; } .tools .count { margin-left:auto; }
+  .hist { max-height:260px; overflow:auto; margin-top:10px; border:1px solid var(--line); border-radius:8px; }
+  .hist table { width:100%; border-collapse:collapse; font-size:12px; font-variant-numeric:tabular-nums; }
+  .hist th, .hist td { padding:4px 8px; text-align:right; border-bottom:1px solid var(--line); white-space:nowrap; }
+  .hist th { position:sticky; top:0; background:#f1f4f2; } .hist th:first-child, .hist td:first-child { text-align:left; }
+  header input { border:1px solid var(--line); border-radius:8px; padding:5px 6px; }
+  [hidden] { display:none !important; }
+</style>
+</head>
+<body>
+<section id="login" hidden>
+  <h2>Fixive pilot</h2><p>Test dashboard. Sign in to view the units.</p>
+  <form id="loginForm">
+    <label for="email">Email</label><input id="email" type="email" autocomplete="username" required>
+    <label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password" required>
+    <div id="err"></div>
+    <button class="primary" type="submit">Sign in</button>
+  </form>
+</section>
+
+<div id="app" hidden>
+  <header>
+    <h1>Fixive pilot dashboard <span class="tag">TEST</span></h1>
+    <select id="range" aria-label="Chart range">
+      <option value="6">Last 6 hours</option><option value="24" selected>Last 24 hours</option><option value="168">Last 7 days</option>
+      <option value="720">Last 30 days</option><option value="custom">Custom dates…</option>
+    </select>
+    <span id="custom" hidden><input id="from" type="datetime-local" aria-label="From"> to <input id="to" type="datetime-local" aria-label="To"> <button id="apply">Show</button></span>
+    <button id="out">Sign out</button>
+  </header>
+  <main><div id="grid" class="grid"></div><div id="none" class="empty" hidden>No units have reported yet.</div></main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script type="module">
+import { firebaseConfig, LOGIN_EMAIL, CABINET_ALARM_C, OFFLINE_AFTER_S } from "./config.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getDatabase, ref, onValue, get, query, orderByKey, startAt, endAt } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+const $ = (id) => document.getElementById(id);
+if (firebaseConfig.apiKey.startsWith("PASTE")) {
+  $("login").hidden = false; $("loginForm").hidden = true;
+  $("login").querySelector("p").textContent = "Dashboard is not configured yet: fill in dashboard/config.js.";
+  throw new Error("config.js not filled in");
+}
+const app = initializeApp(firebaseConfig), auth = getAuth(app), db = getDatabase(app);
+$("email").value = LOGIN_EMAIL;
+
+$("loginForm").addEventListener("submit", async (e) => {
+  e.preventDefault(); $("err").textContent = "";
+  try { await signInWithEmailAndPassword(auth, $("email").value.trim(), $("pw").value); }
+  catch (err) { $("err").textContent = "Sign-in failed. Check the email and password."; }
+});
+$("out").addEventListener("click", () => signOut(auth));
+
+let devices = {}, charts = {}, stopDevices = null, timer = null;
+onAuthStateChanged(auth, (user) => {
+  $("login").hidden = !!user; $("app").hidden = !user;
+  if (stopDevices) { stopDevices(); stopDevices = null; } clearInterval(timer);
+  if (!user) return;
+  stopDevices = onValue(ref(db, "devices"), (snap) => { devices = snap.val() || {}; renderCards(); });
+  timer = setInterval(() => { renderCards(); loadCharts(); }, 60000);
+});
+$("range").addEventListener("change", () => {
+  const custom = $("range").value === "custom"; $("custom").hidden = !custom;
+  if (custom && !$("from").value) { const p = (d) => new Date(d - d.getTimezoneOffset() * 60000).toISOString().slice(0, 16); $("to").value = p(new Date()); $("from").value = p(new Date(Date.now() - 86400000)); }
+  loadCharts();
+});
+$("apply").addEventListener("click", loadCharts);
+
+const hist = {};                                             // full rows per device for the table and CSV
+function span() {                                            // [since, until] in epoch seconds
+  if ($("range").value === "custom") {
+    const a = Date.parse($("from").value), b = Date.parse($("to").value);
+    if (a && b && b > a) return [Math.floor(a / 1000), Math.floor(b / 1000)];
+  }
+  const h = Number($("range").value) || 24, now = Math.floor(Date.now() / 1000);
+  return [now - h * 3600, now + 600];
+}
+const stamp = (ts) => new Date(ts * 1000).toLocaleString([], { year: "numeric", month: "short", day: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit" });
+function renderTable(id) {
+  const box = document.querySelector("#card-" + id + " .hist"); if (!box || box.hidden) return;
+  const rows = (hist[id] || []).slice(-500).reverse();
+  box.innerHTML = "<table><thead><tr><th>Time (local)</th><th>Cabinet °C</th><th>Discharge °C</th><th>Avg A</th><th>Max A</th><th>Comp.</th></tr></thead><tbody>" +
+    rows.map((r) => `<tr><td>${stamp(r.ts)}</td><td>${fmt(r.cab, 2)}</td><td>${fmt(r.dis, 1)}</td><td>${fmt(r.ia, 2)}</td><td>${fmt(r.ix, 2)}</td><td>${r.on == null ? "–" : r.on ? "ON" : "off"}</td></tr>`).join("") + "</tbody></table>";
+}
+function downloadCsv(id) {
+  const rows = hist[id] || [], v = (x) => (x === null || x === undefined ? "" : x);
+  const lines = ["device_id,timestamp_utc,epoch_s,cabinet_c,discharge_c,current_avg_a,current_max_a,compressor_on,rssi_dbm"]
+    .concat(rows.map((r) => [id, new Date(r.ts * 1000).toISOString(), r.ts, v(r.cab), v(r.dis), v(r.ia), v(r.ix), v(r.on), v(r.rssi)].join(",")));
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([lines.join("\n")], { type: "text/csv" }));
+  a.download = `${id}_${new Date(span()[0] * 1000).toISOString().slice(0, 10)}_to_${new Date(Math.min(span()[1], Date.now() / 1000) * 1000).toISOString().slice(0, 10)}.csv`;
+  a.click(); URL.revokeObjectURL(a.href);
+}
+
+const fmt = (v, d) => (v === null || v === undefined ? "–" : Number(v).toFixed(d));
+const ago = (s) => s < 90 ? `${Math.max(0, Math.round(s))} s ago` : s < 5400 ? `${Math.round(s / 60)} min ago` : s < 172800 ? `${Math.round(s / 3600)} h ago` : `${Math.round(s / 86400)} d ago`;
+
+function renderCards() {
+  const ids = Object.keys(devices).sort();
+  $("none").hidden = ids.length > 0;
+  const now = Date.now() / 1000;
+  for (const id of ids) {
+    const d = devices[id], L = d.latest || {};
+    let card = document.getElementById("card-" + id), isNew = false;
+    if (!card) {
+      card = document.createElement("div"); card.className = "card"; card.id = "card-" + id; isNew = true;
+      card.innerHTML = `<h3><span class="name"></span> <span class="id"></span><span class="badge"></span></h3>
+        <div class="vals">
+          <div class="val cab"><b></b><span>Cabinet °C</span></div><div class="val dis"><b></b><span>Discharge °C</span></div>
+          <div class="val cur"><b></b><span>Current A</span></div><div class="val comp"><b></b><span>Compressor</span></div>
+        </div><div class="meta"></div><div class="chart"><canvas></canvas></div>
+        <div class="tools"><button class="tbl">Show readings</button><button class="csv">Download CSV</button><span class="count"></span></div>
+        <div class="hist" hidden></div>`;
+      $("grid").appendChild(card);
+      card.querySelector(".csv").addEventListener("click", () => downloadCsv(id));
+      card.querySelector(".tbl").addEventListener("click", (e) => { const b = card.querySelector(".hist"); b.hidden = !b.hidden; e.target.textContent = b.hidden ? "Show readings" : "Hide readings"; renderTable(id); });
+    }
+    const age = now - (d.last_seen || 0), offline = age > OFFLINE_AFTER_S;
+    const hot = !offline && L.cab != null && L.cab > CABINET_ALARM_C;
+    card.classList.toggle("alarm", hot);
+    card.querySelector(".name").textContent = d.name || id;
+    card.querySelector(".id").textContent = id;
+    const b = card.querySelector(".badge");
+    b.textContent = offline ? "Offline" : hot ? "Too warm" : "Online"; b.className = "badge" + (offline ? " off" : hot ? " alarm" : "");
+    card.querySelector(".cab b").textContent = fmt(L.cab, 1); card.querySelector(".cab").classList.toggle("hot", hot);
+    card.querySelector(".dis b").textContent = fmt(L.dis, 1);
+    card.querySelector(".cur b").textContent = fmt(L.ia, 2);
+    card.querySelector(".comp b").textContent = L.on == null ? "–" : L.on ? "ON" : "off";
+    card.querySelector(".meta").textContent = `Last data ${d.last_seen ? ago(age) : "never"} · Wi-Fi ${L.rssi ?? "–"} dBm · fw ${d.fw || "–"}` + (d.backlog ? ` · backlog ${d.backlog}` : "");
+    if (isNew) loadChart(id);
+  }
+}
+
+function loadCharts() { for (const id of Object.keys(devices)) loadChart(id); }
+
+async function loadChart(id) {
+  const card = document.getElementById("card-" + id); if (!card) return;
+  const [since, until] = span(), hours = (until - since) / 3600;
+  let rows = [];
+  try {
+    const snap = await get(query(ref(db, "readings/" + id), orderByKey(), startAt(String(since)), endAt(String(until))));
+    snap.forEach((c) => { rows.push(c.val()); });
+  } catch (err) { console.log("[fixive] chart load failed", id, err); return; }
+  hist[id] = rows;
+  card.querySelector(".count").textContent = rows.length ? `${rows.length} readings · ${stamp(rows[0].ts)} → ${stamp(rows[rows.length - 1].ts)}` : "No readings in this period";
+  renderTable(id);
+  const step = Math.ceil(rows.length / 600) || 1;                       // thin out long ranges
+  rows = rows.filter((_, i) => i % step === 0);
+  const pts = (k) => rows.map((r) => ({ x: r.ts * 1000, y: r[k] ?? null }));
+  const tick = (v) => { const t = new Date(v); return hours > 30 ? t.toLocaleDateString([], { day: "numeric", month: "short" }) : t.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }); };
+  const data = { datasets: [
+    { label: "Cabinet °C", data: pts("cab"), borderColor: "#0f7a5a", yAxisID: "y" },
+    { label: "Discharge °C", data: pts("dis"), borderColor: "#d98e2b", yAxisID: "y" },
+    { label: "Current A", data: pts("ia"), borderColor: "#3f6fd6", yAxisID: "y2" },
+  ].map((s) => ({ ...s, borderWidth: 1.6, pointRadius: 0, tension: 0.2, spanGaps: false })) };
+  if (charts[id]) { charts[id].data = data; charts[id].options.scales.x.min = since * 1000; charts[id].options.scales.x.max = Math.min(until, Date.now() / 1000) * 1000; charts[id].options.scales.x.ticks.callback = tick; charts[id].update("none"); return; }
+  charts[id] = new Chart(card.querySelector("canvas"), { type: "line", data, options: {
+    responsive: true, maintainAspectRatio: false, animation: false, parsing: false, interaction: { mode: "nearest", intersect: false },
+    scales: {
+      x: { type: "linear", min: since * 1000, max: Math.min(until, Date.now() / 1000) * 1000, ticks: { callback: tick, maxTicksLimit: 6 }, grid: { display: false } },
+      y: { position: "left", title: { display: true, text: "°C" } },
+      y2: { position: "right", title: { display: true, text: "A" }, grid: { drawOnChartArea: false }, beginAtZero: true },
+    },
+    plugins: { legend: { labels: { boxWidth: 10, font: { size: 11 } } }, tooltip: { callbacks: { title: (items) => new Date(items[0].parsed.x).toLocaleString() } } },
+  } });
+}
+</script>
+</body>
+</html>
