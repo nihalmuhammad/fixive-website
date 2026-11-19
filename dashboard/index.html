@@ -110,7 +110,7 @@
     <a class="brand" href="/" aria-label="Fixive home"><span class="brand-mark"><svg viewBox="0 0 64 64" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 52V12H48" stroke="#0b0f16" stroke-width="7"/><path d="M18 33H27L32 24L38 42L42 33H48" stroke="#ffffff" stroke-width="5.5"/></svg></span><span><strong>Fixive</strong><small>Pilot dashboard</small></span></a>
     <span class="tag">TEST</span>
     <select id="range" aria-label="Period">
-      <option value="24">Last 24 hours</option><option value="168" selected>Last 7 days</option><option value="720">Last 30 days</option><option value="custom">Custom dates…</option>
+      <option value="1" selected>Live (last hour)</option><option value="4">Last 4 hours</option><option value="24">Last 24 hours</option><option value="168">Last 7 days</option><option value="720">Last month</option><option value="custom">Custom dates…</option>
     </select>
     <span id="custom" hidden><input id="from" type="datetime-local" aria-label="From"> to <input id="to" type="datetime-local" aria-label="To"> <button id="apply">Show</button></span>
     <button id="out">Sign out</button>
@@ -158,7 +158,7 @@ onAuthStateChanged(auth, (user) => {
   let first = true;
   stops.push(onValue(ref(db, "devices"), (snap) => { devices = snap.val() || {}; if (first) { first = false; loadAll(); } else render(); }));
   stops.push(onValue(ref(db, "settings"), (snap) => { settings = snap.val() || {}; render(); }));
-  timers.push(setInterval(render, 30000), setInterval(loadAll, 300000));
+  timers.push(setInterval(render, 30000), setInterval(loadAll, 300000), setInterval(() => { if ($("range").value === "1") loadAll(); }, 60000));   // live view reloads every minute
 });
 $("range").addEventListener("change", () => {
   const custom = $("range").value === "custom"; $("custom").hidden = !custom;
@@ -178,9 +178,11 @@ function span() {                                            // [since, until] i
     const a = Date.parse($("from").value), b = Date.parse($("to").value);
     if (a && b && b > a) return [Math.floor(a / 1000), Math.floor(b / 1000)];
   }
-  const h = Number($("range").value) || 168, now = Math.floor(Date.now() / 1000);
+  const h = Number($("range").value) || 1, now = Math.floor(Date.now() / 1000);
   return [now - h * 3600, now];
 }
+// Periods of 4 hours or less show durations in minutes instead of hours.
+function durFmt() { const [a, b] = span(), m = b - a <= 4 * 3600; return { u: m ? "min" : "h", d: m ? 0 : 1, lab: m ? "Minutes above limit" : "Hours above limit", x: (h) => (h == null ? null : h * (m ? 60 : 1)) }; }
 function periodName() { const o = $("range").selectedOptions[0]; return $("range").value === "custom" ? "selected dates" : o.textContent.toLowerCase(); }
 
 // ---------- data ----------
@@ -255,10 +257,11 @@ function renderFleet(ids) {
   const f = (which) => { const cabT = sum("cabT", which), hotT = sum("hotT", which), cov = sum("covered", which), win = sum("window", which);
     return { safe: pct(cabT - hotT, cabT), hotH: cabT > 0 ? hotT / 3600 : null, uptime: win > 0 ? Math.min(100, pct(cov, win)) : null }; };
   const c = f("cur"), p = sum("covered", "prev") > 0 ? f("prev") : { safe: null, hotH: null, uptime: null };
+  const D = durFmt();
   const st = ids.map(status), on = st.filter((s) => !s.offline).length, hot = st.filter((s) => s.hot).length, off = st.length - on;
   $("fleet").innerHTML =
     tile("Time in safe range", fmt(c.safe, 1), "%", delta(c.safe, p.safe, 1, "", false), "Share of time cabinets stayed at or under their limit") +
-    tile("Hours above limit", fmt(c.hotH, 1), "h", delta(c.hotH, p.hotH, 1, " h", true), "Across all units; lower is better") +
+    tile(D.lab, fmt(D.x(c.hotH), D.d), D.u, delta(D.x(c.hotH), D.x(p.hotH), D.d, " " + D.u, true), "Across all units; lower is better") +
     tile("Monitoring uptime", fmt(c.uptime, 1), "%", delta(c.uptime, p.uptime, 1, "", false), "Share of time with data received") +
     `<div class="tile"><div class="tl"><span class="lab">Units right now</span></div><div class="big">${on}<span> of ${st.length} online</span></div>
      <div class="pills">${hot ? `<span class="badge alarm">${hot} too warm</span>` : ""}${off ? `<span class="badge off">${off} offline</span>` : ""}${!hot && !off ? `<span class="badge">All within limits</span>` : ""}</div></div>`;
@@ -267,7 +270,7 @@ function renderFleet(ids) {
 function mini(label, value, deltaHtml, hot) { return `<div class="mini${hot ? " hot" : ""}"><span>${label}</span><b>${value}</b>${deltaHtml}</div>`; }
 function renderDetail(id) {
   const d = devices[id], L = d.latest || {}, s = status(id), u = unitStats(id), lim = limitOf(id), box = $("detail");
-  const c = u ? u.c : {}, p = u && u.p ? u.p : {};
+  const c = u ? u.c : {}, p = u && u.p ? u.p : {}, D = durFmt();
   const tot = u ? c.runH + c.idleH + c.gapH : 0, w = (h) => (tot > 0 ? (100 * h) / tot : 0);
   box.classList.toggle("alarm", s.hot);
   box.innerHTML = `
@@ -276,12 +279,12 @@ function renderDetail(id) {
     <div class="minis">
       ${mini("Cabinet now", fmt(L.cab, 1) + " °C", `<span class="delta">limit ${fmt(lim, 1)} °C</span>`, s.hot)}
       ${mini("Time in safe range", fmt(c.safe, 1) + " %", delta(c.safe, p.safe, 1, "", false))}
-      ${mini("Hours above limit", fmt(c.hotH, 1) + " h", delta(c.hotH, p.hotH, 1, " h", true))}
+      ${mini(D.lab, fmt(D.x(c.hotH), D.d) + " " + D.u, delta(D.x(c.hotH), D.x(p.hotH), D.d, " " + D.u, true))}
       ${mini("Compressor duty cycle", fmt(c.duty, 0) + " %", delta(c.duty, p.duty, 0, "", null))}
       ${mini("Peak discharge temp", fmt(c.peak, 1) + " °C", delta(c.peak, p.peak, 1, " °C", null))}
       ${mini("Compressor starts / day", fmt(c.starts, 0), delta(c.starts, p.starts, 0, "", null))}
     </div>
-    <div class="barwrap"><div class="tl"><span class="lab">Compressor time, ${esc(periodName())}</span><span class="note">Running ${fmt(c.runH, 1)} h · Idle ${fmt(c.idleH, 1)} h · No data ${fmt(c.gapH, 1)} h</span></div>
+    <div class="barwrap"><div class="tl"><span class="lab">Compressor time, ${esc(periodName())}</span><span class="note">Running ${fmt(D.x(c.runH), D.d)} ${D.u} · Idle ${fmt(D.x(c.idleH), D.d)} ${D.u} · No data ${fmt(D.x(c.gapH), D.d)} ${D.u}</span></div>
       <div class="bar" role="img" aria-label="Running ${fmt(w(c.runH), 0)} percent, idle ${fmt(w(c.idleH), 0)} percent, no data ${fmt(w(c.gapH), 0)} percent">
         <div style="width:${w(c.runH)}%;background:#a78bfa"></div><div style="width:${w(c.idleH)}%;background:#3a4352"></div><div style="width:${w(c.gapH)}%;background:#ef4444"></div></div>
       <div class="legend"><span><i style="background:#a78bfa"></i>Running</span><span><i style="background:#3a4352"></i>Idle</span><span><i style="background:#ef4444"></i>No data</span></div></div>
